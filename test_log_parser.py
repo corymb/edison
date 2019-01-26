@@ -1,6 +1,9 @@
 from datetime import datetime, time
 
-from log_parser import get_date, get_time
+from log_parser import get_date, get_time, get_nick, get_recipient
+
+
+LINE = '<cdunklau> JordiGH: angle brackets'.split()
 
 
 def test_get_date():
@@ -16,12 +19,18 @@ def test_get_time():
 
 
 def test_get_nick():
-    pass
+    expected = 'cdunklau'
+    assert get_nick(LINE) == expected
 
 
 def test_get_recipient():
-    pass
+    expected = 'JordiGH'
+    assert get_recipient(LINE) == expected
 
+def test_get_recipient_without_recipientp():
+    # strips recipient:
+    line = [LINE[0]] + LINE[2:]
+    assert get_recipient(line) == None
 
 def test_get_message():
     pass
