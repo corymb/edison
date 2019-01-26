@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, time
 
-from log_parser import get_date
+from log_parser import get_date, get_time
 
 
 def test_get_date():
@@ -10,7 +10,9 @@ def test_get_date():
 
 
 def test_get_time():
-    pass
+    time_string = '[03:43:05]'
+    expected = time(hour=3, minute=43, second=5)
+    assert get_time(time_string) == expected
 
 
 def test_get_nick():
