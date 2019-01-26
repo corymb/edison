@@ -6,11 +6,19 @@ class LogParser:
     Groups log parsing functionality.
     Methods not prefixed with '_' should be considered a public interface
     """
-    def _get_date(self, date_string):
+    def __init__(self, filename):
+        self.filename = filename
+        self.date = self._get_date_from_filename(filename)
+
+    def parse_log_file(self):
+        pass
+
+    def _get_date_from_filename(self, filename):
         """
-        Takes date in YYYY-MM-DD form,
-        returns datetime object
+        Takes filename
+        returns corresponding datetime object
         """
+        date_string = filename[:-4]
         return datetime.strptime(date_string, '%Y-%m-%d')
 
     def _get_time(self, time_string):
