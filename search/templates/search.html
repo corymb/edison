@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% include 'search_box.html' %}
+
+{% for result in results %}
+  {{ result }}
+{% empty %}
+  <h3 class="text-center mt-4">No results found for '{{ query }}'</h3>
+{% endfor %}
+
+{% endblock %}
+
