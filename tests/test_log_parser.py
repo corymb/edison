@@ -74,3 +74,10 @@ def test_parse_log():
     assert parsed_data['nick'] == NICK
     assert parsed_data['recipient'] == RECIPIENT
     assert parsed_data['message'] == MESSAGE
+
+
+@patch('search.file_reader.FileReader.read_file', lambda x: ['xxx'])
+def test_parser_ignores_ignore_patterns():
+    log_parser = LogParser(FILENAME)
+    log_parser._ignore_patterns = 'xxx'
+    assert log_parser.parse_log_file() == []

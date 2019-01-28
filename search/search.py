@@ -10,3 +10,5 @@ class Search:
     def get_results(self, query):
         if not query:
             return []
+        else:
+            return Line.objects.all()

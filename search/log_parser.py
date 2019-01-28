@@ -3,6 +3,9 @@ from datetime import datetime
 from search.file_reader import FileReader
 
 
+IGNORE_PATTERNS = '***'  # should be an iterable, but we only need to match one pattern (O(n) vs O(n2)
+
+
 class LogParser:
     """
     Groups log parsing functionality.
@@ -14,12 +17,21 @@ class LogParser:
         self._filename = filename
         self._date = self._get_date_from_filename(filename)
         self._reader = FileReader(filename)
+        self._ignore_patterns = IGNORE_PATTERNS
 
     def parse_log_file(self):
         log_file = self._reader.read_file()
-        return [self._parse_line(l.split()) for l in log_file]
+        acc = []
+        for l in log_file:
+            line = self._parse_line(l.split())
+            if line:
+                acc.append(line)
+        return acc
 
     def _parse_line(self, line):
+        if self._ignore_patterns in line:
+            return None
+
         time = self._get_time(line[0])
         recipient = self._get_recipient(line)
         return dict(
