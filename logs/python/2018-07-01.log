@@ -1,0 +1,361 @@
+[00:00:29] <altendky> TheComet: you don't get warnings/errors for an incorrect signature?  anyways, maybe not the cpython-api since it's not actually python at all.
+[00:00:33] *** Quits: inerthia (~inerthia@unaffiliated/inerthia) (Ping timeout: 248 seconds)
+[00:00:49] *** Joins: Odyseus (~Odyseus@138.117.129.193)
+[00:00:58] *** Joins: gacrux (~gacrux@2406:e006:6d9d:1:e573:ec23:9f16:2bc2)
+[00:01:34] *** Joins: Forsythe (~Forsythe@91.207.175.182)
+[00:02:39] <TheComet> altendky, the PyMethodDef structure only has PyCFunction entries, even when the function isn't a PyCFunction such as with METH_KEYWORDS
+[00:02:53] <_habnabit> TheComet, there are many reasons to avoid the C API yes :)
+[00:03:24] *** Quits: ec0 (~ec0@irc.hebden.net.au) (Quit: ZNC - http://znc.in)
+[00:03:32] *** Joins: dramsey_ (~dramsey@c-68-37-94-119.hsd1.mi.comcast.net)
+[00:04:12] <_habnabit> TheComet, especially if you're just getting started
+[00:04:25] <altendky> TheComet: i'm not sure how that relates to what i said.  if the compiler isn't warning/erroring about incompatible signatures getting mixed then i'd think something is configured wrong.  unless there are things passed as null pointers then cast to whatever anybody wants them to be.
+[00:04:25] *** Quits: Spacey (~Thunderbi@x4db3e751.dyn.telefonica.de) (Ping timeout: 260 seconds)
+[00:05:07] *** Quits: maiz (~maiz@129.45.44.99) (Ping timeout: 268 seconds)
+[00:06:03] *** Joins: padraigd (~Thunderbi@c-73-151-122-9.hsd1.ca.comcast.net)
+[00:06:16] *** Joins: ec0 (~ec0@irc.hebden.net.au)
+[00:06:25] *** Quits: ephemer0l_ (~ephemer0l@pentoo/user/ephemer0l) (Ping timeout: 248 seconds)
+[00:07:10] *** Joins: maiz (~maiz@105.101.111.202)
+[00:07:14] *** Joins: polarfire (~polarfire@91.162.173.129)
+[00:07:34] *** Quits: gacrux (~gacrux@2406:e006:6d9d:1:e573:ec23:9f16:2bc2) (Quit: ZZZzzz…)
+[00:07:43] <TheComet> altendky, what I mean is let's say you're using METH_KEYWORDS, your function signature has to be PyObject* foo(PyObject*,PyObject*,PyObject*); This is not a PyCFunction, but the PyMethodDef structure requires you to store it as a PyCFunction. It forces you to cast to PyCFunction and in Objects/call.c it picks up the function again and casts it back to a PyCFunctionWithKeywords
+[00:08:10] *** Quits: TackTick_ (~TackTick@dndson1201w-lp130-01-174-91-135-76.dsl.bell.ca) (Ping timeout: 264 seconds)
+[00:08:23] *** Quits: kevan_ (~kevan@cpe-76-175-72-63.socal.res.rr.com) (Ping timeout: 256 seconds)
+[00:08:36] <TheComet> There is no way for a compiler to check whether you got the function signature right or not. If you're missing an argument, have fun debugging stack corruption
+[00:08:49] <dw> TheComet: that's.. a surprise
+[00:08:54] *** Quits: zalt (~lambda443@unaffiliated/lambda443) (Quit: :|)
+[00:08:55] <dw> TheComet: and you're absolutely right, my code is broken on windows
+[00:09:19] <altendky> TheComet: sure, things that depending on blindly casting away what a thing really is so no error checking can be done...  :|
+[00:09:42] <altendky> TheComet: keep researching why not to use the c-api.  luckily i haven't yet and maybe never will.
+[00:09:52] <_habnabit> please do not
+[00:09:57] *** ec0 is now known as jhebden
+[00:10:16] <altendky> _habnabit: i leave the possibility open that i'll be 'forced' to.  but yeah, i don't plan on trying to.
+[00:10:23] <TheComet> And that's the whole issue I was asking about with METH_NOARGS, because half of the tutorials I've found on the internet claim you can use PyObject* foo(PyObject*) instead of PyObject* foo(PyObject*,PyObject*) for METH_NOARGS, and this is WRONG
+[00:10:51] <dw> TheComet: it's half right, in that it only applies to callee-clanup calling conventions
+[00:10:54] <altendky> TheComet: lots of stuff says to `sudo pip` as well (hint, do _not_ do that)
+[00:11:26] <TheComet> dw, right, that's a valid point but it's eggshells
+[00:11:51] *** Joins: inerthia (~inerthia@unaffiliated/inerthia)
+[00:11:53] <_habnabit> more ammunition for "stop using the C API"
+[00:12:02] *** Quits: httperr418 (~ashitaka@93-97-213-242.zone5.bethere.co.uk) (Ping timeout: 256 seconds)
+[00:12:03] *** jhebden is now known as ec0
+[00:12:27] <TheComet> More like "write accurate documentation please"
+[00:12:31] *** Quits: polarfire (~polarfire@91.162.173.129) (Ping timeout: 268 seconds)
+[00:12:39] <_habnabit> yes, but also don't use the C API
+[00:12:46] <TheComet> So what's the hip thing to do now that I've made this discovery? Post on my hipster blog right?
+[00:13:10] *** Joins: multifractal (~multifrac@89.238.142.140)
+[00:13:51] <_habnabit> sounds good
+[00:14:23] *** Joins: Mk6 (~ops@179.157.61.212)
+[00:15:17] *** ec0 is now known as jhebden
+[00:15:27] <dw> TheComet: any idea what behaviour i'd look for on windows? this code "isn't broken" there, but i haven't tested. i'd expect a terminal failure of the app if the stack ended up offset by 1 word, but maybe the problem is more subtle?
+[00:15:53] *** Joins: kevan_ (~kevan@cpe-76-175-72-63.socal.res.rr.com)
+[00:15:57] <dw> its also pretty old code -- 2013 vintage
+[00:16:19] <TheComet> dw, I really don't know, I'm primarily linux. I'd assume it would "work" until something is read from the stack that really throws off execution
+[00:16:36] <_habnabit> dw, sounds like a good time to switch to cffi then
+[00:16:54] *** Quits: GenteelBen (GenteelBen@cpc129112-lutn14-2-0-cust66.know.cable.virginm.net) ()
+[00:17:05] <TheComet> But it seems like you probably won't have stack corruption if your compiler uses stdcall, which is callee-cleanup convention
+[00:17:08] *** Quits: inerthia (~inerthia@unaffiliated/inerthia) (Ping timeout: 276 seconds)
+[00:17:21] *** Joins: jab416171 (~jab416171@c-174-52-63-79.hsd1.ut.comcast.net)
+[00:17:32] <offby1> hm, cffi ... or gtfo?  Decisions
+[00:17:47] *** Joins: jin23lee (~jin23lee@209.197.26.68)
+[00:17:56] <_habnabit> offby1, that's about the size of it
+[00:18:00] <TheComet> cffi won't cut it for situations where you have complex internal dependencies on the C side
+[00:18:17] <_habnabit> TheComet, i don't think that's true, but i'm not sure what you mean
+[00:18:47] <dw> _habnabit: the same project is also implemented in cffi (py-lmdb), performance isn't even remotely competitive
+[00:19:07] <_habnabit> dw, oh, i know. cffi's p great
+[00:19:27] <TheComet> Like what happens if you're wrapping a tree structure where destroying the root node destroys the entire tree
+[00:19:44] <TheComet> You'll have python objects that are pointing to garbage
+[00:19:57] <_habnabit> TheComet, .. wouldn't that be the case with the C API too?
+[00:20:12] <ikanobori> _habnabit: It's not very competitive with a Python C module but you know. Then you have to touch the C API :)
+[00:20:13] <TheComet> Yes, but there you can handle it
+[00:20:27] *** Quits: WeiJunLi (~weijunli@41.72.5.8) (Ping timeout: 240 seconds)
+[00:20:31] <_habnabit> TheComet, in what situation can you handle it from the C API and not cffi?
+[00:20:36] *** Joins: ephemer0l_ (~ephemer0l@pentoo/user/ephemer0l)
+[00:20:37] *** Joins: WeiJunLi (~weijunli@154.0.74.113)
+[00:20:41] <ikanobori> The call overhead is a bit larger etc so it also depends on workload of course.
+[00:20:46] <_habnabit> ikanobori, not on pypy
+[00:20:57] *** Quits: enriq (~pitagoras@190-186-16-190.fibertel.com.ar) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[00:21:21] *** Joins: Debnet (~Marc@2a01:e0a:22:19d0:cd90:db16:8ee2:8e2)
+[00:21:42] <dw> the issue in py-lmdb is that there is quite significant safety magic that needs to exist, and that must be written in python for cffi, so it really sucks on cpython, so the binding is implemented twice
+[00:22:07] <TheComet> Well, you seem to know cffi. In C API I handle it by registering a callback to the node's destruct() function and setting the pointer in the python object to NULL when that happens. Further code that tries accessing the destroyed C object from python will prevent it because you can check for NULL
+[00:22:10] <runciter> don't use cpython for performance-sensitive code
+[00:22:26] <dw> and if you sy "to hell with it, just use cffi", you end up with a db binding that is as slow as every other db binding, making the project pointless :P~
+[00:22:27] <runciter> TheComet, http://planetpython.org/
+[00:22:29] <runciter> oh, dang
+[00:22:30] <_habnabit> TheComet, sure? and what makes you think cffi doesn't have callbacks?
+[00:22:32] <runciter> http://cffi.readthedocs.io/en/latest/using.html#extern-python-new-style-callbacks
+[00:22:39] <runciter> TheComet, ^
+[00:22:45] *** Quits: mud (~mud@unaffiliated/kadoban) (Ping timeout: 265 seconds)
+[00:23:52] <TheComet> The callback isn't something that should be exposed to python though
+[00:24:01] *** Joins: inerthia (~inerthia@unaffiliated/inerthia)
+[00:24:05] <TheComet> It's used internally to keep track of which C objects are destroyed
+[00:24:09] <dw> TheComet: the underlying lib in this case has relatively complex rules about when you can crash the process by using one object when the state of another has changed, and they must keep each other alive somehow
+[00:24:20] <_habnabit> TheComet, yeah. so you put it in a private implementation module
+[00:24:36] *** Joins: arnidg (~arnidg@89-160-240-253.du.xdsl.is)
+[00:24:57] *** Quits: maiz (~maiz@105.101.111.202) (Ping timeout: 240 seconds)
+[00:25:11] *** Quits: kevan_ (~kevan@cpe-76-175-72-63.socal.res.rr.com) (Ping timeout: 256 seconds)
+[00:25:21] <TheComet> Can you point me to an example with cffi of where you have to manage a C object who's lifetime can end at any point?
+[00:26:24] <_habnabit> TheComet, i'm not aware of any C library that will destroy something out from under you in such a way that it's impossible to know that it happened
+[00:26:26] *** Joins: floryst__ (~floryst@cpe-45-37-110-36.nc.res.rr.com)
+[00:26:34] <runciter> TheComet, https://github.com/pyca/pyopenssl/blob/master/src/OpenSSL/crypto.py#L107-L130 ?
+[00:26:36] <_habnabit> TheComet, so this seems like a false comparison
+[00:26:57] <runciter> note in particular http://cffi.readthedocs.io/en/latest/ref.html#ffi-gc
+[00:27:05] <TheComet> Any UI library will do that. Any hierarchical structure basically
+[00:27:49] <_habnabit> TheComet, short answer: i don't believe you. are you saying that the callback solution is incorrect, or infeasible? because what you've described sounds like exceptionally poor design on the C ABI side
+[00:28:01] *** Quits: kp__ (~kp@pool-72-83-138-33.washdc.fios.verizon.net) (Ping timeout: 256 seconds)
+[00:28:07] *** Joins: Draecos (~Draecos@203.121.220.138)
+[00:28:26] <runciter> i think what you mean is: manipulating a python object might affect multiple things in the C library, which need to then callback into python code
+[00:28:35] *** Quits: inerthia (~inerthia@unaffiliated/inerthia) (Ping timeout: 256 seconds)
+[00:28:59] <runciter> if it's possible for the C library to invalidate some region of memory without there being a way to inform the python code, it's impossible to write correct bindings for that C library
+[00:29:04] <runciter> if it's not possible, you can use cffi callbacks
+[00:29:30] <_habnabit> i think it's impossible to _use_ that library, because cffi can hook in at any point plain ol C can
+[00:29:32] <runciter> or perhaps ffi.gc, etc.
+[00:29:45] <runciter> _habnabit, yeah, that's what i meant to say
+[00:29:47] *** Quits: kajo (~kajo@2001:4c50:371d:8400:cd1d:6b7f:82f8:bd23) (Ping timeout: 245 seconds)
+[00:29:52] <dw> the callback solution only works when deallocations are explicitly visible to the runtime, TheComet's example is about calling e.g. a cffi-wrapped tree_destroy(node *root) when some pointer to a child of *root exists in python land
+[00:30:12] <TheComet> The bottom line is I don't know cffi so I'm essentially blowing smoke out of my ass here. If you say this problem can be solved with callbacks then cool
+[00:30:22] *** Quits: alephnull (~alephnull@node-3sl.pool-125-27.dynamic.totbb.net) (Ping timeout: 264 seconds)
+[00:30:26] <_habnabit> TheComet, cffi can do anything C can do, so
+[00:30:30] <TheComet> dw nails exactly what I tried to explain
+[00:30:45] <_habnabit> dw, and, what, that invalidates any child pointers implicitly?
+[00:30:49] * offby1 wrinkles his nose and fans the air in front of his face 
+[00:31:05] <offby1> not just smoke, but really _bad_-smelling smoke, at that
+[00:31:09] <runciter> dw, when would that be called?
+[00:31:11] *** Joins: kp__ (~kp@pool-72-83-138-33.washdc.fios.verizon.net)
+[00:31:13] <TheComet> Yes, because tree_destroy(node* root) will recursively destroy every node in that tree
+[00:31:19] <dw> _habnabit: yeah, this exact thing actually happens in py-lmdb and is why it's kinda slow on cpython :)  when you call Environment.close(), every Transaction and Cursor must be told "your pointer is dead, don't ever touch it"
+[00:31:31] <dw> _habnabit: all that deallocation is handled interanlly by the db engine, not the python binding
+[00:31:33] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[00:31:46] <_habnabit> ok, then you'd do the same thing you'd do in the C API: walk the tree and break the reference before calling tree_destroy
+[00:31:50] *** Quits: padraigd (~Thunderbi@c-73-151-122-9.hsd1.ca.comcast.net) (Ping timeout: 260 seconds)
+[00:32:20] <_habnabit> or, box the whole thing and don't allow python objects to have borrowed interior references
+[00:32:21] <altendky> I think pyqt can have similar issues since qt tries to provide its own memory management
+[00:32:37] <TheComet> What if some dingus decided to assign one of the child nodes to a module level attribute?
+[00:32:58] *** Joins: alephnull (~alephnull@node-o5z.pool-125-27.dynamic.totbb.net)
+[00:33:01] <runciter> dw, it sounds like calling Environment.close with active transactions and cursors is a bug
+[00:33:03] <dw> oh, i think i see what _habnabit is saying too :)  _habnabit is saying the exact same problem exists using CPython API directly, which is true :)
+[00:33:15] <_habnabit> TheComet, "don't allow" as in you only _copy_ things out, not borrow them
+[00:33:20] *** Joins: rpkilby (~rpkilby@cpe-76-182-45-76.nc.res.rr.com)
+[00:33:26] <dw> runciter: the bug is whether or not it crashes and a user inexperienced in dealing with segfaults is suddenly forced to deal with a segfault. that's the binding's job
+[00:33:31] <altendky> dw: even just in c itself
+[00:33:35] <_habnabit> TheComet, python doesn't have lifetime management
+[00:33:54] <runciter> dw, sure, but what i'm saying is, that's a bug in anything that uses lmdb
+[00:34:00] <runciter> so yes, write the bindings to disallow that
+[00:34:10] *** Quits: dramsey_ (~dramsey@c-68-37-94-119.hsd1.mi.comcast.net) (Ping timeout: 260 seconds)
+[00:34:12] <dw> runciter: so when wrapping c libs, it is never a bug to call things out of order, unless it defies logic to hide the crash :)
+[00:34:14] *** Joins: adelfino (~adelfino@181.169.157.148)
+[00:34:15] <_habnabit> TheComet, or you do it weakref-style and keep a list of all objects with outstanding borrowed references and break only those
+[00:34:27] <runciter> dw, err, i don't follow
+[00:34:40] <runciter> (but i was going to suggest what _habnabit said)
+[00:34:46] <dw> runciter: if the python interface is as buggy and error-prone as the c interface, why use python at all? your productivity will be equal to working in C
+[00:35:08] *** Quits: dgnsrekt (~dgnsrekt@24.248.14.198) (Ping timeout: 256 seconds)
+[00:35:09] <dw> runciter: so if you want to say 'i wrote a python binding for c lib', i take that to mean you handled every possible memory safety issue too
+[00:35:33] <_habnabit> yep basically
+[00:36:10] <runciter> sure
+[00:36:16] *** Joins: kloudi- (~kloudi@static.73.76.9.176.clients.your-server.de)
+[00:36:30] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 260 seconds)
+[00:36:30] <dw> runciter: where 'you' above is not the finger-pointy 'you', but perhaps 'one' :)
+[00:36:34] <runciter> i think that _habnabit would agree if i say that our conceit is that it's still easier to do that with cffi than with the python c api
+[00:36:51] <dw> sure :)
+[00:37:07] <altendky> dw: That seems a bit excessive.  Pyqt is massively helpful desire being able to trigger segfaults
+[00:37:15] <_habnabit> owned
+[00:37:16] <TheComet> Someone mentioned performance before, that c api will be a lot faster
+[00:37:19] <altendky> *despite
+[00:37:21] <dw> my only issue is that fundamental problems in wrapping most C libraries involves significant amounts of logic that is slow on cpython, so cffi is not necessarily a cure-all
+[00:37:37] <runciter> _habnabit, corn cobs are delicious
+[00:37:48] *** Quits: olorin (~olorin@unaffiliated/olorin) (Ping timeout: 268 seconds)
+[00:37:59] <runciter> dw, that's true and i take it as yet another reason not to use cpython in performance-sensitive contexts
+[00:38:08] <_habnabit> TheComet, you know what ime ends up the fastest out of the 2x2 grid of options? pypy with a pure-python implementation of the C library, because pypy can't JIT across ffi boundaries
+[00:38:10] *** Quits: rpkilby (~rpkilby@cpe-76-182-45-76.nc.res.rr.com) (Ping timeout: 264 seconds)
+[00:38:10] *** Quits: kloudi (~kloudi@static.73.76.9.176.clients.your-server.de) (Ping timeout: 264 seconds)
+[00:38:18] *** Quits: Raed (~Raed@2601:18c:8600:9be:b1b7:efc8:2c95:999) (Ping timeout: 260 seconds)
+[00:38:25] <_habnabit> TheComet, your C library is a black box of AOT
+[00:38:56] <runciter> switching to pypy and using cffi is less work than writing correct C or porting everything to another language/runtime
+[00:39:26] <dw> runciter: in the real world, $4.65b changed hands for one such app (youtube ;). ideals are great (like my perfect memory safety ideal), but practice is never quite exactly the way we want
+[00:39:48] *** Joins: inerthia (~inerthia@unaffiliated/inerthia)
+[00:39:48] <runciter> what makes companies money is not a sound argument
+[00:39:56] <jiffe> so I just did a pip install --upgrade as pip recommended and pip is now broke, ImportError: No module named _internal
+[00:39:56] <_habnabit> heh as if youtube spends most of its time in cpython
+[00:39:56] *** Quits: newdimension (~newdimens@toroon12-3096785076.sdsl.bell.ca) (Read error: Connection reset by peer)
+[00:39:59] <runciter> C makes a lot of companies money, but that doesn't mean there should be more C code
+[00:40:09] <jiffe> pip install --upgarde pip
+[00:40:11] <_habnabit> jiffe, post the full error please
+[00:40:16] <dw> _habnabit: i think at the time it still did? no clue
+[00:40:19] <altendky> jiffe: did you do that with sudo?
+[00:40:20] *** Joins: Raed (~Raed@2601:18c:8600:9be:b1b7:efc8:2c95:999)
+[00:40:27] <jiffe> altendky: yes
+[00:40:28] <_habnabit> dw, when it was bought? sure
+[00:40:30] <TheComet> _habnabit, that might be true but it's hard to know whether it really would be faster. I'm doing some heavy algorithmic stuff. That and the library should be usable from C/C++ as well as from python. If I wrote it in python only, I'm not sure how you could use it in C++
+[00:40:48] <_habnabit> TheComet, the answer is delightfully consistent: cffi
+[00:40:48] <runciter> what heavy algorithmic stuff?
+[00:40:49] *** Joins: newdimension (~newdimens@toroon12-3096785076.sdsl.bell.ca)
+[00:40:54] <mattfly> hey, whats an usable msproject python library?
+[00:40:56] <altendky> jiffe: in the future just don't run system pip at all
+[00:40:56] *** Joins: StygianBlues (~StygianBl@74-194-176-205.chstcmtk03.res.dyn.suddenlink.net)
+[00:41:03] <_habnabit> TheComet, numpy will probably be pretty good for that
+[00:41:13] <TheComet> runciter various IK solvers
+[00:41:24] <jiffe> error is https://pb.jiffe.com/KyLjmkne14LdnRycwb5YjR
+[00:41:30] <dw> runciter: as someone paid by the day by companies for the past decade, i'd imagine our debating what is the ultimate priority is likely to result in no unified opinion :)
+[00:41:30] <_habnabit> TheComet, but it's true that the experience i cited wasn't heavy math stuff
+[00:41:31] *** Quits: GiLgAmEzH (~gilgamezh@unaffiliated/gilgamezh) (Ping timeout: 268 seconds)
+[00:41:51] *** Joins: gacrux (~gacrux@2406:e006:6d9d:1:5d95:deb3:39f4:c242)
+[00:41:53] *** Joins: ofek (~Ofekmeist@pool-68-134-55-153.bltmmd.fios.verizon.net)
+[00:42:05] *** Quits: StygianBlues (~StygianBl@74-194-176-205.chstcmtk03.res.dyn.suddenlink.net) (Read error: Connection reset by peer)
+[00:42:30] *** Quits: roofy (~roofy@2600:1700:89a0:8ae0::45) (Ping timeout: 276 seconds)
+[00:42:38] *** Joins: enriq (~pitagoras@190-186-16-190.fibertel.com.ar)
+[00:42:38] <ofek> ionelmc, hey man! are you there?
+[00:43:21] *** Joins: StygianBlues (~StygianBl@74-194-176-205.chstcmtk03.res.dyn.suddenlink.net)
+[00:43:29] <runciter> dw, well, i'm writing java professionally again - i'm no stranger to this argument, but that doesn't mean it results in quality software
+[00:43:37] <altendky> jiffe: basically you mixed your system package manager with the pip package manager.  You might be able to uninstall pip with pip, maybe, and possibly need to reinstall pip with the system package manager. Use virtualenv or venv for each project in the future and then pip inside that
+[00:43:47] <runciter> c'est la vie
+[00:44:01] *** Joins: someclown (~someclown@107.170.206.89)
+[00:45:01] <dw> runciter: depends on how you measure quality :)  *ducks*
+[00:45:30] <altendky> loc/day, right?
+[00:45:42] <dw> "we almost got bought for $4.65b but then the eng team started a 6 month port to some new fangled thing and the site was down
+[00:46:06] <dw> it's entirely subjective how you measure quality before/after said port, or before/after hacks were applied to keep things going until money changed hands
+[00:46:33] <dw> one measure is "were business goals met" :)  its a cheap myopic view but it keeps most people happy
+[00:47:03] *** Quits: gacrux (~gacrux@2406:e006:6d9d:1:5d95:deb3:39f4:c242) (Quit: ZZZzzz…)
+[00:47:09] <altendky> If only business goals included tomorrow measurably
+[00:47:17] *** Quits: Raed (~Raed@2601:18c:8600:9be:b1b7:efc8:2c95:999) (Ping timeout: 245 seconds)
+[00:47:19] <dw> Indeed.
+[00:47:28] *** Quits: internalsplit (~internals@c-24-16-133-129.hsd1.wa.comcast.net) (Quit: Going offline, see ya! (www.adiirc.com))
+[00:48:10] *** Quits: inerthia (~inerthia@unaffiliated/inerthia) (Ping timeout: 260 seconds)
+[00:48:23] <altendky> At some point it's just a matter of whether the developers feel good about their code. If not, you'll probably have issues getting done what you want.
+[00:48:44] <altendky> If they do feel good, it depends if they are good developers or not.
+[00:48:50] <foo> I am writing a script that does 2 things:
+[00:49:34] *** Quits: jin23lee (~jin23lee@209.197.26.68) (Quit: Leaving)
+[00:49:41] *** Joins: Raed (~Raed@2601:18c:8600:9be:b1b7:efc8:2c95:999)
+[00:52:06] *** Quits: TheComet (~TheComet@80-218-18-42.dclient.hispeed.ch) (Quit: Leaving)
+[00:52:14] * offby1 holds breath
+[00:52:29] *** Joins: TackTick_ (~TackTick@dndson1201w-lp130-01-174-91-135-76.dsl.bell.ca)
+[00:53:14] <foo> I am writing a script that does 2 things: 1) it's looping a process and playing an mp4, when it finishes, it plays next mp4 in order. However, the second thing 2) when something happens, I want to stop playing mp4 and play another mp4. I'm wondering, what's the best way to do this? eg. specifically, I'll need to kill or stop the first process from playing and the second one will need to start playing. This is on a raspberry pi hooked up to a monitor ...
+[00:53:21] <foo> ... (likely not important)
+[00:53:23] <foo> offby1: :)
+[00:53:43] *** Joins: himcesjf_ (~cesjf@unaffiliated/himcesjf)
+[00:54:09] *** Joins: korans (~korans@93.191.203.83)
+[00:54:24] *** Quits: him-cesjf (~cesjf@unaffiliated/himcesjf) (Ping timeout: 256 seconds)
+[00:55:02] <foo> I suppose I could have a long running python process, then I could send it a kill signal SIGHUP, catch it, stop video, then play next video upon certain condition, then it could go back to original loop ?
+[00:55:06] <theorem> foo: wait for keyboard input in the main thread, and start a worker thread to drive the display. Trap SIGINT - or any other keypress and send the signal to the thread.
+[00:55:43] <theorem> there are a number of signals, SIGHUP and SIGINT are both bad
+[00:55:52] <altendky> foo: pretty sure this would be easy in pyqt at least. No processes or threads (other than the main ones).
+[00:56:24] <altendky> Maybe other libs as well
+[00:56:31] <foo> altendky: I haven't used pyqt but can take a look. We're specifically playing mp4 videos. I was going to have a python loop iterating through them and then log which one is playing
+[00:56:42] <foo> theorem: when you say SIGHUP and SIGINT are "both bad" - what do you mean?
+[00:56:47] *** Quits: newdimension (~newdimens@toroon12-3096785076.sdsl.bell.ca) (Read error: Connection reset by peer)
+[00:57:13] <altendky> foo: threads and os signals are not how you build a gui
+[00:57:43] <foo> altendky: I never thought of this as a GUI, we're just playing videos... nothing more. But perhaps it is, thanks
+[00:57:45] *** Joins: [itchyjunk] (~itchyjunk@unaffiliated/itchyjunk/x-1640057)
+[00:58:16] <offby1> this is probably overkill, but I'd think about 0MQ and pub/sub
+[00:58:22] *** Quits: adelfino (~adelfino@181.169.157.148) (Quit: Leaving)
+[00:58:29] <theorem> you'll need to catch both, and they would no longer perform their original function
+[00:58:32] <theorem> hence "bad"
+[00:59:02] <theorem> better to catch one that isn't "end this task" or "restart this task"  unless you can do without either ?
+[00:59:13] <offby1> SIGUSR1
+[00:59:29] <foo> theorem: ah, I see what you mean now - thank you
+[00:59:33] <altendky> foo: it's graphical and you want user interaction, right?
+[00:59:33] <offby1> if I recall correctly there are a couple of signals that have no predefined meanings
+[00:59:44] <theorem> offby1: ZMQ is absolutely overkill.
+[00:59:49] <foo> Looks like the original CLI tool that works to play videos is called omxplayer. I don't need to use that, but I thought I'd run this via python
+[00:59:53] <theorem> foo: you might look at using VNC though
+[01:00:00] <theorem> not VNC
+[01:00:02] <theorem> sorry, VLC
+[01:00:08] <theorem> this feels very scriptable.
+[01:00:13] <offby1> heh
+[01:00:17] *** Joins: Vladek (~Chris@60.227.75.119)
+[01:00:26] <offby1> theorem: I was gonna say "Oh, and VNC _isn't_ overkill?" :-)
+[01:00:34] <jiffe> ok so I have python installed on ubuntu via apt which looks like it installed enum34, when I try to install tensorflow via pip it fails because it tries to upgrade enum34 and can't because it was installed via apt, but removing enum34 via apt also removes python
+[01:00:37] <theorem> ;-)
+[01:00:58] <altendky> jiffe: are you working in a virtualenv or venv?
+[01:01:26] <foo> altendky: more specifically, the interaction is via SMS... so there isn't user interaction via keyboard/mouse
+[01:01:43] <altendky> foo: so networking?
+[01:01:50] <theorem> SMS ..
+[01:01:53] <theorem> crazy talk ...
+[01:02:00] <theorem> twilio ?
+[01:02:28] *** Quits: nigel45 (~w@127.ip-142-44-210.net) (Ping timeout: 256 seconds)
+[01:02:34] <foo> altendky: twilio will hit our webhook and then we'll say (somehow, trying to figure this out) "stop playing the mp4 loop, and play _this_ mp4 instead"
+[01:02:38] <foo> oh, theorem ^
+[01:02:57] <altendky> foo: so it's a web server?
+[01:03:18] <foo> altendky: it will be running nginx + gunicorn + flask for webhook, yes
+[01:04:04] <foo> altendky: + sqlalchemy + sql lite. Plus logic to play video, stop video and play another, and a few more things. Relatively small, but this one piece I'm not sure how to do - short of doing a long running process, killing it off and playing another mp4, then resuming long running process in original mp4 loop
+[01:05:35] <altendky> foo: then it makes sense you'll need some ipc. Though I wouldn't do that with signals.
+[01:06:00] <foo> altendky: ipc = inter process communication?
+[01:06:09] *** Joins: fc5dc9d4 (~quassel@p5B081B67.dip0.t-ipconnect.de)
+[01:06:16] *** Joins: sameee (~sameee@163.47.184.241)
+[01:06:38] *** Quits: Vladek (~Chris@60.227.75.119) (Quit: leaving)
+[01:06:47] <foo> altendky: I could use python Threading to loop videos? Then when I see a database value that I can read from every 1/2 sec or such, then I can kill the thread and play video
+[01:06:55] <altendky> foo: yes.  If an existing player let's you get the info you need (currently playing video?) then you could use that
+[01:06:58] *** Quits: andylavarre (~andy@mobile-166-177-57-15.mycingular.net) (Remote host closed the connection)
+[01:07:34] <foo> that might work better, actually. Then just 1 long running process that watches database for when webhook gets hit
+[01:07:37] <altendky> foo: hopefully you find a lib where you don't have to create a thread (at least not yourself) to play a video without blocking
+[01:07:57] *** Joins: unpythonic (~unpythoni@c-98-207-240-139.hsd1.ca.comcast.net)
+[01:08:06] <foo> altendky: creating a thread seems easy, unless there's something here's I'm missing
+[01:08:21] <jiffe> yaeh a virtualenv fixes a lot eh
+[01:08:46] *** Quits: james41382_ (~james4138@unaffiliated/james41382) (Ping timeout: 264 seconds)
+[01:09:37] <foo> altendky: eg. python threading , start a thread, in that run subprocess to start oxmplayer
+[01:10:13] <altendky> foo: why would you create a thread?
+[01:10:27] *** Quits: derk0pf (~derk0pf@p5497B8F0.dip0.t-ipconnect.de) (Ping timeout: 240 seconds)
+[01:10:33] <altendky> foo: just popen to run a process without blocking
+[01:10:34] *** Quits: fc5dc9d4_ (~quassel@p57A32B06.dip0.t-ipconnect.de) (Ping timeout: 264 seconds)
+[01:10:52] <altendky> foo: but what would you be subprocessing from?
+[01:10:54] <foo> altendky: But then how would I kill that off without a signal?
+[01:10:57] *** Quits: `7hr34t_hvntr (~ThePortWh@unaffiliated/theportwhisperer) (Ping timeout: 240 seconds)
+[01:11:17] *** Joins: MrAureliusR (~MrAureliu@2607:fea8:8460:63b::b)
+[01:11:20] <foo> altendky: omxplayer -o local --no-sd --loop /my/file/is.mp4 is what I was given, I could run this in subprocess
+[01:11:45] *** Joins: b1uehun73r90 (~b1uehun73@78.250.13.48)
+[01:11:56] *** Joins: bayman (~bayman@c-98-207-250-239.hsd1.ca.comcast.net)
+[01:12:39] <b1uehun73r90> hello,
+[01:12:46] <b1uehun73r90> anyone here ? :D
+[01:13:04] <nedbat> b1uehun73r90: nope :)
+[01:13:09] <b1uehun73r90> hehe
+[01:13:35] *** Joins: inerthia (~inerthia@unaffiliated/inerthia)
+[01:13:47] <b1uehun73r90> I am trying to do something that seems simple with subprocess, but am stuck with an error I don't understand
+[01:14:04] <nedbat> b1uehun73r90: if you pastebin the latest code and full error report, we can help
+[01:14:30] <altendky> foo: but where are you planning on launching and managing that from?
+[01:14:37] *** Joins: polarfire (~polarfire@91-162-173-129.subs.proxad.net)
+[01:15:30] *** Quits: phlixi (~phlixi@ppp-46-244-217-247.dynamic.mnet-online.de) (Ping timeout: 256 seconds)
+[01:15:41] <foo> altendky: a long running python process, was the thought
+[01:15:51] *** Quits: enriq (~pitagoras@190-186-16-190.fibertel.com.ar) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[01:16:20] *** Joins: Farad41 (~Thunderbi@2604:6000:140a:c009:6006:52ba:b553:be68)
+[01:16:27] <altendky> foo: so why does it need a thread? What you need is ipc between flask and that video management process
+[01:16:58] <altendky> foo: unless omx can be the whole management process and you just kill and launch directly from flask
+[01:17:26] *** Quits: Mattiaslndstrm (~Mattiasln@2806:103e:9:257e:b88a:7c4d:70d1:9f44) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[01:17:54] *** Joins: rslovers (~user@144.202.39.207)
+[01:17:56] <foo> altendky: I may be missing something here. I was thinking my ipc would be a long running python process, and when it see's a database record change, it would do something else (flask would write to database). How else can I do ipc (without using signals, that is)? Appreciate the dialog here
+[01:18:05] *** Quits: inerthia (~inerthia@unaffiliated/inerthia) (Ping timeout: 240 seconds)
+[01:18:14] *** Joins: volition (volition@gateway/vpn/privateinternetaccess/volition)
+[01:18:44] <altendky> foo: networking, etc.
+[01:18:46] *** Joins: AnySomebody (~AnySomebo@p2003005F2803E905A097A2FFFE5553BE.dip0.t-ipconnect.de)
+[01:18:53] *** Joins: padraigd (~Thunderbi@c-73-151-122-9.hsd1.ca.comcast.net)
+[01:19:03] <altendky> foo: but what are your actions? Force a certain video to play. Anything else?
+[01:19:03] <foo> altendky: Both these processes are on the same system. Can you elaborate on the etc?
+[01:19:22] *** Joins: andeh_ (~andeh@146.115.76.19)
+[01:19:22] <altendky> foo: it doesn't matter. You can still use networking stuff
+[01:19:35] <foo> altendky: that's it. by default, loop through mp4s, when a certain event happens from flask, stop looping and play this mp4 and when that finishes return to loop
+[01:19:40] *** Quits: polarfire (~polarfire@91-162-173-129.subs.proxad.net) (Ping timeout: 260 seconds)
+[01:19:57] <foo> altendky: I see, in that case, I may not understanding what is meant by "networking stuff" – hmph
+[01:20:04] <altendky> foo: x windows used to be all tcp.  That's why you could launch a program on a remote system and display it locally.  I don't know anymore.
+[01:20:17] <altendky> foo: http, zmq, whatever
+[01:20:32] <altendky> foo: but what actions do you need to be able to do?
+[01:21:05] *** Quits: multifractal (~multifrac@89.238.142.140) (Ping timeout: 248 seconds)
+[01:21:29] <foo> altendky: without any code-speak, on a raspberry pi, I want to play mp4s. When something happens in flask, I want to stop current mp4, play a specific mp4 and when that finishes playing I want to go back to original mp4 loop
+[01:21:33] *** Quits: sysfault (~exalted@pool-108-53-210-20.nwrknj.fios.verizon.net) (Quit: Leaving)
+[01:21:35] <b1uehun73r90> https://paste.pound-python.org/show/eGwkHc56tdiKn2N2vtVy/
+[01:21:49] <b1uehun73r90> hello, can someone please help me understand my mistake ?
+[01:21:51] *** Joins: ShyPixie (IdentME@unaffiliated/shypixie)
+[01:21:56] *** Joins: sysfault (~exalted@pool-108-53-210-20.nwrknj.fios.verizon.net)
+[01:22:01] <foo> altendky: That's really it. I'm still not seeing how this is possible, and my subprocess attempts don't seem to work thus far but still experimenting. eg. calling media play with subprocess
+[01:22:05] *** Joins: mizu_no_oto_work (~textual@2604:6000:1012:4098:0:4ab1:4648:4083)
+[01:22:12] <b1uehun73r90> I've been looking on the interwebs but didn't have any luck
+[01:22:37] *** Quits: andeh_ (~andeh@146.115.76.19) (Client Quit)
+[01:22:44] *** Quits: royal_screwup21 (02317cdd@gateway/web/cgi-irc/kiwiirc.com/ip.2.49.124.221) (Quit: http://www.kiwiirc.com/ - A hand crafted IRC client)
+[01:23:08] <altendky> foo: so playing a loop of a queue can probably be done directly by omx with no interaction I'd guess. Is that correct?
+[01:23:08] *** Joins: philr (~phil@ppp121-45-86-74.bras1.adl6.internode.on.net)
+[01:23:23] *** Quits: Smeef (~deathonat@unaffiliated/smeef) (Quit: (╯°□°）╯︵ ┻━━┻)
+[01:23:48] <foo> altendky: I was thinking I'd manually iterate through the queue in python and play it with omxplayer (eg. I'd feed it one at a time)
+[01:23:54] <nedbat> b1uehun73r90: can you pastebin the full error report?
+[01:24:04] <altendky> foo: but can omx loop a queue?
+[01:24:09] <foo> altendky: actually, subprocess to start, and then subprocess to kill, and I may not need any python Threading.
+[01:24:24] <foo> altendky: I don't believe so, just plays one at a time (I don't want to give it that much control)
+[01:24:26] <TommyC> Query: Which is more "pythonic": `if not len(sys.argv[1:])' or `if len(sys.argv[1:] == 0)' ? I know the first form is more recommended (it seems like) but isn't the second more "explicit rather than implicit"?
+[01:24:37] <foo> altendky: because I want to know what video is playing, hence why I'd loop through it in python
+[01:24:57] <altendky> foo: no existing player that can do this?
+[01:25:01] <offby1> TommyC: why not just `if len(sys.argv) == 1' ?
+[01:25:10] <nedbat> offby1: ^^

@@ -1,0 +1,1340 @@
+[00:00:45] *** Quits: guacamole (~textual@unaffiliated/guacamole) (Quit: Textual IRC Client: www.textualapp.com)
+[00:00:51] *** Quits: Guest31715 (~quassel@i577A50F1.versanet.de) (Ping timeout: 240 seconds)
+[00:01:07] *** Joins: Leeds (~Leeds@221.127.123.53)
+[00:01:20] *** Quits: Raku (raku@2601:2c7:4300:1b00:230:48ff:fe32:d99f) (Quit: WeeChat 2.3-dev)
+[00:01:24] <wleslie> bitsnack: I started here: https://anidiotsguide_old.gitbooks.io/discord-js-bot-guide/content/examples/using-embeds-in-messages.html and you can see how the fields appear, it looks similar to your string
+[00:01:30] *** Joins: InverseRhombus (~InverseRh@90.252.19.197)
+[00:01:39] *** Joins: Raku (raku@2601:2c7:4300:1b00:230:48ff:fe32:d99f)
+[00:02:35] *** Joins: HaikUbuntu (~haikubunt@37.170.147.221)
+[00:02:55] <wleslie> it also mentions embed can contain markdown
+[00:03:22] *** Quits: ferdna (~ferdna@68-73-71-246.lightspeed.elpstx.sbcglobal.net) (Quit: Leaving)
+[00:04:19] *** Quits: amrx (~amrx@unaffiliated/amrx) (Remote host closed the connection)
+[00:04:19] *** Quits: tempus_fol (~tempus@unaffiliated/fol-tempus/x-4804267) (Quit: Bouncing away)
+[00:04:40] *** Quits: unlink2 (~unlink2@2a02:810d:21bf:de28:afe7:5515:b7e6:ad71) (Ping timeout: 256 seconds)
+[00:04:41] *** Quits: jennifer (~perl@taskhive/supporter/cassandriel) (Quit: Leaving)
+[00:04:51] *** Quits: Draecos (~Draecos@110-93-18-150.r.lbnco.com.au) (Quit: This computer has gone to sleep)
+[00:05:09] *** Quits: BPL (~BPL@76.0.60.213.dynamic.reverse-mundo-r.com) (Ping timeout: 260 seconds)
+[00:05:48] *** Joins: BPL (~BPL@76.0.60.213.dynamic.reverse-mundo-r.com)
+[00:06:13] *** Joins: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca)
+[00:06:22] *** Quits: Karyon (~Karyon@unaffiliated/karyon) (Quit: Leaving)
+[00:06:57] *** Quits: sartan (~sartan@unaffiliated/sartan) (Ping timeout: 240 seconds)
+[00:07:10] *** Quits: hfp (~hfp@2607:fea8:520:1300:5054:ff:fe81:8d0) (Quit: bye)
+[00:07:32] *** Joins: unlink2 (~unlink2@2a02:810d:21bf:de28:afe7:5515:b7e6:ad71)
+[00:08:05] <bitsnack> wleslie: Does not help me. Where did you see it in the .py embeds?
+[00:08:40] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Read error: Connection timed out)
+[00:08:48] *** Quits: BPL (~BPL@76.0.60.213.dynamic.reverse-mundo-r.com) (Client Quit)
+[00:09:14] *** Joins: nobodi_ (~nobodi@modemcable142.127-177-173.mc.videotron.ca)
+[00:10:19] *** Quits: adamholmberg (~adamholmb@69.80.114.120) (Remote host closed the connection)
+[00:10:30] *** Joins: hfp (~hfp@2607:fea8:520:1300:5054:ff:fe81:8d0)
+[00:10:47] *** Joins: adamholmberg (~adamholmb@69.80.114.120)
+[00:11:48] *** Quits: prepend (~textual@198.246.100.83) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[00:12:04] <Omega037> at what point does it make sense to define your configurations in code vs in something like a TOML?
+[00:12:05] <bitsnack> https://paste.pound-python.org/show/relKxurPy5n71oi7oYAt/ has my issue and my code, please help! Linebreaks not working
+[00:12:18] <_habnabit> Omega037, never in code, imo
+[00:12:19] *** Joins: civillian (~nick@124-171-77-117.dyn.iinet.net.au)
+[00:12:27] <Omega037> well, ive got these pipelines ive built to run off of TOML files
+[00:12:34] <Omega037> but they dont really change that often
+[00:12:42] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[00:13:01] <Omega037> the only reason I did the TOML files is that our Airflow in production setup means any code changes require the docker image be rebuilt and deployed
+[00:13:11] *** Joins: techalchemy (~Hawkerz@unaffiliated/hawkerz)
+[00:13:19] <Omega037> so instead it just pulls configurations from an S3 bucket
+[00:13:50] <Omega037> except, there is a ton of boilerplate and crap dealing with all of that, even though the configs are basically static 95% of the time
+[00:13:53] *** Joins: eDge_eNg (~edge_eng@unaffiliated/edge-eng/x-8536881)
+[00:14:36] <Omega037> so instead i could have a module called abc_config.py, that just holds the variables and gets imported in
+[00:14:46] *** Quits: Raku (raku@2601:2c7:4300:1b00:230:48ff:fe32:d99f) (Quit: WeeChat 2.3-dev)
+[00:15:06] *** Quits: adamholmberg (~adamholmb@69.80.114.120) (Ping timeout: 244 seconds)
+[00:15:08] *** Joins: codesoup (~codesoup@2607:fea8:e220:70:3d25:6db8:2433:3030)
+[00:15:15] *** Joins: apetresc (~apetresc@CPEbc4dfb720b93-CMbc4dfb720b90.cpe.net.cable.rogers.com)
+[00:16:57] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 240 seconds)
+[00:16:58] *** Quits: jepe (~jepe@63.85.148.66) (Read error: Connection reset by peer)
+[00:17:17] *** Joins: Raku (raku@2601:2c7:4300:1b00:230:48ff:fe32:d99f)
+[00:17:23] *** Joins: jepe (~jepe@63.85.148.66)
+[00:17:32] *** Quits: aristos (~aristos@176.92.133.80) (Quit: Leaving)
+[00:17:59] *** Quits: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca) (Quit: leaving)
+[00:18:02] *** Joins: wleslie_ (~verte@python/site-packages/verte)
+[00:18:21] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Ping timeout: 240 seconds)
+[00:19:07] *** Quits: Wr4i7h (~abcd@a85-139-11-90.cpe.netcabo.pt) ()
+[00:20:34] *** Quits: wleslie (~verte@python/site-packages/verte) (Disconnected by services)
+[00:20:39] *** wleslie_ is now known as wleslie
+[00:20:47] *** Quits: graphene (~graphene@46.101.134.251) (Remote host closed the connection)
+[00:21:33] *** Joins: graphene (~graphene@46.101.134.251)
+[00:22:11] <ouemt> I need help figuring out how to handle this ndarray -> list conversion:
+[00:22:44] *** Quits: hussam (uid193284@gateway/web/irccloud.com/x-keslnfrsuopgdwqz) (Quit: Connection closed for inactivity)
+[00:23:08] <ouemt> this_run.append([function_that_generates_ndarray().tolist(), another_array_generating_function().tolist()])
+[00:23:13] <ouemt> inside a nested for loop
+[00:23:18] *** Joins: IJsbrand (~ttt@203.113.207.71)
+[00:23:39] <ouemt> I end up with 4 levels of list because those are appended as two lists in another list
+[00:23:42] <ouemt> how do I flatten that?
+[00:24:57] *** Quits: tdy (~tdy@unaffiliated/tdy) (Ping timeout: 240 seconds)
+[00:25:04] *** Quits: wleslie (~verte@python/site-packages/verte) (Quit: ~~~ Crash in JIT!)
+[00:25:50] *** Joins: codyw (~cody@c-98-248-33-71.hsd1.ca.comcast.net)
+[00:26:31] *** Quits: ycon_ (~ycon_@120.17.225.110) (Remote host closed the connection)
+[00:27:08] *** Quits: Jinxtrr (~Jinxtrr@2600-6c4a-737f-ff47-44f8-26a4-5a2b-773d.dhcp6.chtrptr.net) (Remote host closed the connection)
+[00:27:35] *** Quits: jcarl43 (~jcarl@vpn-ca01.nbsig.com) (Quit: WeeChat 2.2)
+[00:27:48] *** Joins: kevlarman (~kevlarman@tremulous/officialdevannoyer/kevlarman)
+[00:29:36] *** Joins: Jinxtrr (~Jinxtrr@2600-6c4a-737f-ff47-fcdf-9609-09c5-f637.dhcp6.chtrptr.net)
+[00:29:59] *** Joins: ycon_ (~ycon_@120.17.225.110)
+[00:30:11] *** Joins: xylef (~xylef@175.233.158.146.dynamic.jazztel.es)
+[00:30:28] *** Joins: rns (~rns@2601:345:8302:b77:ccea:f902:d022:d5fa)
+[00:30:36] *** Quits: stevie (~stevie@salvato.cslabs.clarkson.edu) (Ping timeout: 244 seconds)
+[00:30:55] *** Joins: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net)
+[00:31:20] *** Quits: alephnull (~alephnull@node-78r.pool-125-27.dynamic.totbb.net) (Read error: Connection reset by peer)
+[00:31:29] <kevlarman> anyone know of a pure python ppc (dis)assembler?
+[00:32:22] <Wulf> kevlarman: nope. But what about capstone?
+[00:32:57] *** Quits: Syzygy_ (~Syzygy@078132009122.public.t-mobile.at) (Ping timeout: 240 seconds)
+[00:32:58] <kevlarman> the pure python part is because getting a working compiler is going to be a huge pain for me right now
+[00:33:05] *** Quits: renlo (~lhoward@4.14.106.6) (Ping timeout: 248 seconds)
+[00:33:08] *** Joins: keon (~keon@a213-22-27-182.cpe.netcabo.pt)
+[00:33:32] *** Joins: Letimed (~Letimed@2a01:e35:2e8b:de60:48cd:9cac:fbec:bc45)
+[00:33:41] *** Quits: ramsub07 (~Instantbi@79.97.172.52) (Ping timeout: 256 seconds)
+[00:33:59] *** Joins: ojo355 (~ojo355@2804:7f1:e106:2f60:e970:c9df:4f68:f4bc)
+[00:34:51] *** Quits: rns (~rns@2601:345:8302:b77:ccea:f902:d022:d5fa) (Ping timeout: 240 seconds)
+[00:35:17] *** Joins: andyhuzhill (~Thunderbi@14.23.45.178)
+[00:35:25] *** Quits: surfist (surfist@unaffiliated/surfist) (Remote host closed the connection)
+[00:36:14] *** Joins: alephnull (~alephnull@node-tjj.pool-125-24.dynamic.totbb.net)
+[00:36:41] *** Quits: JZA (JZA@gateway/shell/elitebnc/x-crkongrjgfggkwcb) (Quit: Out for the count)
+[00:38:34] *** Joins: nighty- (~nighty@kyotolabs.asahinet.com)
+[00:38:49] *** Joins: imp (~imp@201.6.142.175)
+[00:40:13] *** Joins: surfist (surfist@unaffiliated/surfist)
+[00:42:12] *** Quits: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[00:42:24] *** Quits: Technodrome (~textual@unaffiliated/technodrome) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[00:43:00] *** Quits: m__ (~Mat001@c-71-202-209-15.hsd1.ca.comcast.net) (Remote host closed the connection)
+[00:43:10] *** Quits: musicnate (~Thunderbi@CPEac202e24c153-CMac202e24c150.cpe.net.fido.ca) (Ping timeout: 268 seconds)
+[00:43:38] *** Quits: haso2 (~Thunderbi@162.79-160-5.customer.lyse.net) (Remote host closed the connection)
+[00:43:59] *** Joins: haso2 (~Thunderbi@162.79-160-5.customer.lyse.net)
+[00:44:24] <leftyfb> I have this line: song = sound_folder + collection + "/" + str(i) + ".wav"     # how can I make it so it plays + "*.wav" ?
+[00:44:51] *** Quits: czer0 (~cupcake@blk-30-147-192.eastlink.ca) (Ping timeout: 265 seconds)
+[00:44:58] *** Joins: twandy (~Thunderbi@cas-fw-sta.inet.casair.net)
+[00:45:05] *** Quits: zahlman (~zahlman@toroon4425w-lp130-03-74-12-95-1.dsl.bell.ca) (Ping timeout: 240 seconds)
+[00:45:13] <leftyfb> basically, it's getting a number so ...  1.wav ... I'd like the file to be named 1-something.wav but the script to not care what is after the 1 and before .wav
+[00:46:03] *** Quits: samsagaz_ (~samsagaz@71-192-245-190.fibertel.com.ar) (Quit: Leaving)
+[00:46:27] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[00:46:50] *** Joins: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca)
+[00:46:54] *** Quits: mozzarella (~sam@unaffiliated/sam113101) (Quit: WeeChat 2.0.1)
+[00:47:16] *** Quits: darkhanb (~darkhanb@ip24-253-111-229.lv.lv.cox.net) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[00:47:17] *** Joins: techwave61 (~py@169.48.236.23.bc.googleusercontent.com)
+[00:47:24] <kevlarman> leftyfb: first of all use os.path.join() instead of + "/" +
+[00:47:39] <kevlarman> leftyfb: you'll need os.listdir for the second part
+[00:47:39] *** Joins: xekz (~kexmex@unaffiliated/kexmex)
+[00:47:48] *** Quits: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca) (Client Quit)
+[00:48:08] *** Joins: isbotnetcool (~isbotnetc@c-24-6-113-240.hsd1.ca.comcast.net)
+[00:48:20] *** Joins: JZA (JZA@gateway/shell/elitebnc/x-zlrtmkpwcfswyfoi)
+[00:48:22] *** Quits: prettybTech (~prettybTe@206.121.69.46) (Ping timeout: 264 seconds)
+[00:49:10] *** Joins: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net)
+[00:49:35] *** Joins: mozzarella (~sam@unaffiliated/sam113101)
+[00:49:42] *** Quits: bitsnack (d42fe874@gateway/web/freenode/ip.212.47.232.116) (Ping timeout: 252 seconds)
+[00:51:05] *** Joins: boomshankerx (~boomshank@S01066038e00d8c18.ed.shawcable.net)
+[00:51:14] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 260 seconds)
+[00:51:59] *** Quits: kuri0 (Elite21275@gateway/shell/elitebnc/x-inxnnvfkltvvvcng) (Quit: Curi0 was slain by Herobrine)
+[00:51:59] *** Quits: neteffect (Elite21294@gateway/shell/elitebnc/x-imnffnmxnnvpvadu) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[00:51:59] *** Quits: bitch (hctib@gateway/shell/elitebnc/x-ukmwnkaicsyzuxqi) (Quit: The bitch has left the building.)
+[00:51:59] *** Quits: crowd42 (Elite20457@gateway/shell/elitebnc/x-peulscmcctwpsjex) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[00:52:21] *** Joins: k_sze[work] (~Kira@unaffiliated/kira)
+[00:52:39] <leftyfb> kevlarman: sorry, I don't know about either of those. I'm barely copying and pasting this script together as it is
+[00:53:24] *** Quits: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net) (Client Quit)
+[00:53:48] *** Quits: graphene (~graphene@46.101.134.251) (Remote host closed the connection)
+[00:54:18] *** qpdb is now known as Guest30021
+[00:54:23] *** Joins: qpdb (~qpdb@unaffiliated/qpdb)
+[00:54:34] *** Joins: graphene (~graphene@46.101.134.251)
+[00:54:44] *** Quits: ardzoht (~ardzoht@187-162-74-14.static.axtel.net) (Ping timeout: 260 seconds)
+[00:55:26] *** Joins: Darkhunter (~mmojzis@static-84-42-152-237.net.upcbroadband.cz)
+[00:56:29] *** Quits: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com) (Ping timeout: 260 seconds)
+[00:56:55] *** Joins: Mat001 (~Mat001@c-71-202-209-15.hsd1.ca.comcast.net)
+[00:56:57] *** Quits: Guest30021 (~qpdb@unaffiliated/qpdb) (Ping timeout: 240 seconds)
+[00:57:01] *** Quits: k_sze[work] (~Kira@unaffiliated/kira) (Client Quit)
+[00:57:02] *** Joins: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca)
+[00:58:26] *** Quits: graphene (~graphene@46.101.134.251) (Remote host closed the connection)
+[00:58:42] *** Joins: bitch (hctib@gateway/shell/elitebnc/x-hwazxbyexdgtwdrv)
+[00:58:48] *** Joins: nexdev9 (~nexdev9@c-24-16-128-56.hsd1.wa.comcast.net)
+[00:58:49] *** Joins: mud (~mud@unaffiliated/kadoban)
+[00:59:07] *** Parts: nexdev9 (~nexdev9@c-24-16-128-56.hsd1.wa.comcast.net) ()
+[00:59:11] *** Joins: graphene (~graphene@46.101.134.251)
+[00:59:14] *** Joins: x00x90 (~x00x90@189.63.21.193)
+[00:59:33] <x00x90> how can get a <type 'datetime.date'> with hours, minutes and seconds ?
+[00:59:47] *** Quits: nobodi_ (~nobodi@modemcable142.127-177-173.mc.videotron.ca) (Quit: WeeChat 2.1)
+[00:59:50] *** Quits: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca) (Client Quit)
+[01:00:07] <kevlarman> x00x90: that's called datetime.datetime
+[01:00:11] *** Joins: chargen (~chargen@217.156.21.95.dynamic.jazztel.es)
+[01:00:34] *** Joins: neteffect (Elite21294@gateway/shell/elitebnc/x-allxmhmfzooedrwd)
+[01:01:00] <Samian> hi
+[01:01:13] *** Joins: sarp (~sarp@cpe-24-163-88-107.nc.res.rr.com)
+[01:01:16] <kevlarman> (also, if at all possible, run away at the first mention of the word timezone)
+[01:01:26] <Samian> I have a python file that has def fun(): print("hello")
+[01:01:39] <Samian> then in another file I do from b import fun
+[01:01:40] <Samian> it works
+[01:01:42] <ouemt> why is this resulting in a list of ndarrays? https://paste.pound-python.org/show/25mdg5NR6M0Ny8WQQEQV/
+[01:01:51] <Samian> but when I change fun to fun_one, it states ImportError: cannot import name 'fun_one'
+[01:01:53] *** Joins: bitethebulleit (~bitethebu@unaffiliated/bitethebulleit)
+[01:01:58] <Samian> what's wrong with the name fun_one?
+[01:02:53] *** Quits: Sasazuka (~Sasazuka@unaffiliated/sasazuka) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[01:03:06] *** Joins: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca)
+[01:03:10] <kevlarman> Samian: can you pastebin both files?
+[01:03:43] <Samian> it must be a problem with jupyter notebook. It works fine in command prompt
+[01:04:04] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[01:04:10] *** Quits: mo` (~user@41.230.111.79) (Remote host closed the connection)
+[01:04:27] *** Quits: chargen (~chargen@217.156.21.95.dynamic.jazztel.es) (Ping timeout: 240 seconds)
+[01:04:32] *** Quits: x00x90 (~x00x90@189.63.21.193) (Quit: Leaving)
+[01:04:35] <ouemt> Samian: restart the kernel and rerun it
+[01:05:44] *** Quits: holden- (~holden-@unaffiliated/holden-) (Ping timeout: 244 seconds)
+[01:05:54] <Samian> ouemt I need to do that every time I change code in a dependency file?
+[01:06:06] *** Joins: Fredman97 (~Fredman97@2001:700:a00:ffe2:edf7:e729:41c:41cd)
+[01:06:49] *** Quits: seajay (~seajay@2602:306:3765:3340:fd54:baab:28f9:8131) (Quit: My MacBook Air has gone to sleep. ZZZzzz…)
+[01:07:04] <ouemt> Samian: if rerunning the import cell doesn't work on it's own, that's the only way I know how to get it to work
+[01:07:36] <Samian> okay
+[01:07:39] <Samian> thanks for the help
+[01:07:46] <Samian> I appreciate it
+[01:08:01] <ouemt> I don't understand enough about how the import process works, so take this with a grain of salt, but I think it's caching a copy of the imported file once it imports. When you try the new name, it doesn't reread the file, it just checks the cached copy and can't find it
+[01:09:01] *** Joins: adamholmberg (~adamholmb@69.80.114.120)
+[01:09:45] *** Joins: white_lilies (~jtdoncas@toroon0247w-lp130-01-74-12-138-126.dsl.bell.ca)
+[01:09:51] *** Quits: bitethebulleit (~bitethebu@unaffiliated/bitethebulleit) (Remote host closed the connection)
+[01:10:17] <ouemt> why does this operation turn 3 lists into an ndarray?         this_run.append(mie_params + mie_sct + mie_s11)
+[01:10:20] <kevlarman> ouemt: you more or less described exactly how it works
+[01:10:45] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[01:11:50] <kevlarman> import first checks if the module is already in memory and uses that if it exists, import y from x just does something along the lines of import x;y = x.y
+[01:12:24] <ouemt> kevlarman: makes sense
+[01:12:35] *** Quits: isbotnetcool (~isbotnetc@c-24-6-113-240.hsd1.ca.comcast.net) (Quit: isbotnetcool)
+[01:13:28] *** Joins: ferdna (~ferdna@68-73-71-246.lightspeed.elpstx.sbcglobal.net)
+[01:13:29] *** Joins: gpp (~pretzel@85.203.22.110)
+[01:13:51] *** Quits: juvenal (Elite21271@gateway/shell/elitebnc/x-qtctxvpxrmkqmyrr) (Quit: ZNC 1.6.5-elitebnc:6 - http://elitebnc.org)
+[01:13:52] *** Quits: khomesh24 (Elite21392@gateway/shell/elitebnc/x-jurgpigguqzhrqyo) (Quit: ZNC 1.6.5-elitebnc:6 - http://elitebnc.org)
+[01:14:37] *** Joins: bpalmer (~user@unaffiliated/bpalmer)
+[01:14:39] *** Joins: tempus_fol (~tempus@unaffiliated/fol-tempus/x-4804267)
+[01:14:54] *** Joins: jusss (~user@unaffiliated/jusss)
+[01:16:28] *** Quits: norcoderboy24 (~norcoderb@p5DDEE485.dip0.t-ipconnect.de) (Ping timeout: 240 seconds)
+[01:16:54] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 260 seconds)
+[01:17:31] *** Quits: Fredman97 (~Fredman97@2001:700:a00:ffe2:edf7:e729:41c:41cd) (Quit: Leaving)
+[01:17:34] *** Quits: jepe (~jepe@63.85.148.66) (Read error: Connection reset by peer)
+[01:17:44] <gpp> how do i inverse the colors on a matrix plot in matplotlib?
+[01:18:00] *** Joins: jepe (~jepe@63.85.148.66)
+[01:18:18] *** Joins: italic (~italic@unaffiliated/italic/x-8958156)
+[01:18:35] <gpp> for example, i want the darker points to actually be brighter and vice versa
+[01:18:57] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Ping timeout: 240 seconds)
+[01:19:27] *** Joins: euidzero (~euidzero@zenbum.cloudns.club)
+[01:19:30] *** Joins: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net)
+[01:20:18] <leftyfb> kevlarman: I looked up os.listdir along with globbing and came across the glob module. But it complains about "cannot concatenate 'str' and 'list' objects"
+[01:20:28] *** Joins: EilKahn (~eilkahn@93.102.16.56.rev.optimus.pt)
+[01:20:49] *** Quits: minip (~minip@unaffiliated/minip) (Remote host closed the connection)
+[01:21:02] <kevlarman> leftyfb: pastebin your code
+[01:21:14] *** Quits: r29v (~textual@104.220.154.222) (Quit: r29v)
+[01:21:16] *** Quits: Leeds (~Leeds@221.127.123.53) (Quit: Leaving)
+[01:22:02] *** Quits: nedbat__ (uid99610@python/psf/nedbat) (Quit: Connection closed for inactivity)
+[01:22:25] *** Quits: haso2 (~Thunderbi@162.79-160-5.customer.lyse.net) (Ping timeout: 256 seconds)
+[01:22:34] *** Quits: zlogan2003 (~zlogan@x4e302b45.dyn.telefonica.de) (Ping timeout: 264 seconds)
+[01:22:43] *** Joins: Fredman97 (~Fredman97@2001:700:a00:ffe2:edf7:e729:41c:41cd)
+[01:22:50] *** Quits: Fredman97 (~Fredman97@2001:700:a00:ffe2:edf7:e729:41c:41cd) (Client Quit)
+[01:23:15] <leftyfb> kevlarman: https://github.com/LowellMakes/fruitplayer/blob/Capcitive_touch_and_python/fruitplayer#L41
+[01:23:16] *** Joins: Geren (68a233a3@gateway/web/freenode/ip.104.162.51.163)
+[01:23:30] *** Quits: derphilipp (~derphilip@p57ABB2A3.dip0.t-ipconnect.de) (Disconnected by services)
+[01:23:30] *** Joins: derphili1 (~derphilip@p57ABB2F5.dip0.t-ipconnect.de)
+[01:24:02] *** Quits: crmne (~crmne@dslb-002-207-014-170.002.207.pools.vodafone-ip.de) (Quit: The Lounge - https://thelounge.github.io)
+[01:24:28] <bpalmer> leftyfb: glob returns a list of matching filenames
+[01:24:33] *** Quits: rapier (~marcos@unaffiliated/novato-br/x-1551087) (Read error: Connection reset by peer)
+[01:24:41] <leftyfb> which should only be 1 file
+[01:24:50] <leftyfb> which is what I want
+[01:24:53] <bpalmer> leftyfb: so, it's a list of size 1
+[01:24:59] *** Joins: malachi (~malconten@91.207.175.176)
+[01:25:09] <bpalmer> leftyfb: "hello" + ["world"] doesn't work
+[01:25:12] <Gustavo6046> It works, as far as I tested it :D
+[01:25:35] <nedbat> Gustavo6046: can you share it?
+[01:25:50] *** Quits: Darkhunter (~mmojzis@static-84-42-152-237.net.upcbroadband.cz) (Quit: Leaving.)
+[01:25:54] *** Quits: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca) (Quit: leaving)
+[01:25:57] <Geren> guys i'm stressed out
+[01:26:35] <leftyfb> bpalmer: so what should I do? wrap the glob in something that pulls the item out of the list?
+[01:26:57] *** Quits: R0b0t1 (~~@unaffiliated/r0b0t1) (Ping timeout: 240 seconds)
+[01:26:59] <Gustavo6046> nedbat, sure, let me just test expressions
+[01:27:04] <bpalmer> leftyfb: how do you normally get something out of a list?
+[01:28:07] <leftyfb> bpalmer: me personally?: echo ${arr[1]}     I don't normally do python. I'm just $learning
+[01:28:26] <bpalmer> leftyfb: it's much the same in python: matching_filenames[0]
+[01:28:28] *** Quits: jlf (~jlf@pdpc/supporter/active/jlf) (Ping timeout: 244 seconds)
+[01:28:31] <bpalmer> leftyfb: at any rate. What you 'should' do, I reckon, is look at the return value, make sure it's the right length (matched exactly 1 thing), and then use that one thing.
+[01:28:49] <bpalmer> leftyfb: but you'll benefit from reading a quick python tutorial if you haven't worked with lists before.
+[01:29:11] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Remote host closed the connection)
+[01:29:13] *** derphili1 is now known as derphilipp
+[01:29:25] <leftyfb> bpalmer: I could probably figure out a list, but again, how would I apply that to the glob?
+[01:29:49] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[01:29:51] *** Joins: crmne (~crmne@dslb-002-207-014-170.002.207.pools.vodafone-ip.de)
+[01:29:58] <leftyfb> Can you just keep wrapping things multiple levels deep in python?
+[01:30:00] *** Joins: solomonix (~solomonix@2607:fcc8:a285:9f00:34b9:eac5:4354:55b3)
+[01:30:01] *** Joins: bendr_ (~azria@unaffiliated/innocent99)
+[01:30:14] <bpalmer> leftyfb: glob is a module. glob.glob is a function. glob.glob("whatever") is a function call that returns something. What is the type of the something it returns?
+[01:30:33] *** Joins: k_sze[work] (~Kira@unaffiliated/kira)
+[01:30:35] *** Joins: Kundry_Wag (~Kundry_Wa@179.183.17.203)
+[01:30:36] <leftyfb> I assume a string
+[01:30:52] *** Quits: andyhuzhill (~Thunderbi@14.23.45.178) (Remote host closed the connection)
+[01:31:22] <bpalmer> leftyfb: your assumption needs testing. start up python and check.
+[01:31:57] *** Joins: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca)
+[01:32:14] *** Joins: setham (~textual@unaffiliated/setham)
+[01:33:04] *** Quits: bendr (~azria@unaffiliated/innocent99) (Ping timeout: 256 seconds)
+[01:33:19] *** Joins: vhuffst (~vhuffst@ip68-11-187-156.br.br.cox.net)
+[01:33:57] *** Quits: tm (~sinnlos@unaffiliated/tm) (Ping timeout: 240 seconds)
+[01:34:01] <leftyfb> >>> glob.glob('0*.wav')
+[01:34:01] <leftyfb> ['0-1up.wav']
+[01:34:12] *** Joins: chargen (~chargen@217.156.21.95.dynamic.jazztel.es)
+[01:34:15] *** Quits: Praxi (uid44918@gateway/web/irccloud.com/x-vjcbudwfwfimwbbi) (Quit: Connection closed for inactivity)
+[01:34:24] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Ping timeout: 260 seconds)
+[01:34:45] <bpalmer> so it returns a list.
+[01:34:53] *** Quits: hemstock (hemstock@80.244.31.40) (Read error: Connection reset by peer)
+[01:35:11] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[01:35:13] *** Joins: Stanley00 (71a1490e@gateway/web/freenode/ip.113.161.73.14)
+[01:35:19] *** Quits: adamholmberg (~adamholmb@69.80.114.120) (Remote host closed the connection)
+[01:35:40] *** Quits: vhuffst (~vhuffst@ip68-11-187-156.br.br.cox.net) (Remote host closed the connection)
+[01:35:48] *** Joins: adamholmberg (~adamholmb@69.80.114.120)
+[01:35:57] <leftyfb> bpalmer: I think we already established that previously though. Where do I go from here?
+[01:36:01] *** Quits: AcTiVaTe (~activate@host-m7ku8h.tnz1.zeelandnet.nl) (Ping timeout: 248 seconds)
+[01:36:05] *** Quits: adamholmberg (~adamholmb@69.80.114.120) (Remote host closed the connection)
+[01:36:14] *** Joins: adamholmberg (~adamholmb@69.80.114.120)
+[01:36:29] <bpalmer> leftyfb: I thought so, too, but then you said "I assume a string"
+[01:36:46] *** Quits: gpp (~pretzel@85.203.22.110) (Quit: leaving)
+[01:37:04] *** Joins: hemstock (~hemstock@109.123.118.23)
+[01:37:06] <bpalmer> leftyfb: as the error message says, you can't concatenate a string and a list. So given a list of strings, you need to figure out how to get a single string out of it.
+[01:37:15] *** Joins: juvenal (Elite21271@gateway/shell/elitebnc/x-rigpwylsoikjubeq)
+[01:37:26] *** Quits: nobodi (~max@modemcable142.127-177-173.mc.videotron.ca) (Ping timeout: 268 seconds)
+[01:37:30] *** Joins: CodeMouse92 (~JasonMc92@unaffiliated/codemouse)
+[01:37:32] *** Joins: DeSigna (~whoami@2404:9400:2::44:0:1)
+[01:37:44] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[01:37:46] *** Quits: EilKahn (~eilkahn@93.102.16.56.rev.optimus.pt) (Quit: WeeChat 2.2)
+[01:38:09] *** Joins: EilKahn (~eilkahn@93.102.16.56.rev.optimus.pt)
+[01:38:13] *** Joins: tm (~sinnlos@unaffiliated/tm)
+[01:38:35] <leftyfb> bpalmer: right, and my question to that is, do I just wrap that whole glob in something?
+[01:38:36] *** Joins: ironi (~ironi@unaffiliated/ironi)
+[01:39:04] *** Quits: chargen (~chargen@217.156.21.95.dynamic.jazztel.es) (Ping timeout: 260 seconds)
+[01:39:19] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Ping timeout: 244 seconds)
+[01:39:36] *** Joins: mandeep_ (~mandeep@unaffiliated/mandeepb)
+[01:40:57] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[01:41:27] *** Quits: rajrajraj (uid72176@gateway/web/irccloud.com/x-rumzkjodgttkjyvw) (Quit: Connection closed for inactivity)
+[01:41:57] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 240 seconds)
+[01:42:00] <nedbat> leftyfb: are you sure it will only ever produce one result?
+[01:42:05] <leftyfb> bpalmer: I don't know how to resolve the glob outside of the concatenated strings because that's required for the glob. Can I put the concatenated strings inside the glob?
+[01:42:15] <leftyfb> nedbat: yes, that's the design
+[01:42:33] *** Joins: andyhuzhill (~Thunderbi@14.23.45.178)
+[01:43:18] <nedbat> leftyfb: you can get the first element of list L with L[0]
+[01:43:25] <bpalmer> leftyfb: you can use a function's return value instead of a function call.  Rather than write 'a() + b()', you can do 'x, y = a(), b()' and use 'x + y' in its place.
+[01:43:46] <bpalmer> leftyfb: there's nothing magic about glob.glob(...) there; it's just a function call that returns a list.
+[01:43:48] <CrtxReavr> Evening, nerds.
+[01:44:32] <bpalmer> You can store the list in a variable and work with the variable; or you can work with the list directly. If you are following a python tutorial, the first will be more familiar
+[01:45:05] <leftyfb> bpalmer: the list requires the concatenated strings, it's a directory path to a file
+[01:45:27] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[01:45:58] *** Quits: adamholmberg (~adamholmb@69.80.114.120) (Remote host closed the connection)
+[01:46:23] <bpalmer> Sorry, I guess I'm not able to explain myself well today; I think we're at an impasse. Good luck.
+[01:46:45] *** Quits: EilKahn (~eilkahn@93.102.16.56.rev.optimus.pt) (Quit: WeeChat 2.2)
+[01:46:57] *** Quits: Kundry_Wag (~Kundry_Wa@179.183.17.203) (Ping timeout: 240 seconds)
+[01:47:17] <nedbat> leftyfb: try this:   glob.glob('/0*.wav')[0]
+[01:47:17] *** Joins: fc5dc9d4 (~quassel@p57A32159.dip0.t-ipconnect.de)
+[01:47:18] *** Joins: bjb (~bjb@sourcerer.ca)
+[01:48:21] *** Quits: jepe (~jepe@63.85.148.66) (Read error: Connection reset by peer)
+[01:48:26] <leftyfb> subprocess.Popen(["aplay", sound_folder + collection + glob.glob('/0*.wav')[0]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+[01:48:26] <leftyfb> IndexError: list index out of range
+[01:48:27] *** Joins: _jepe (~jepe@63.85.148.66)
+[01:49:17] <nedbat> leftyfb: then you have no file that matches that glob
+[01:49:30] <_habnabit> leftyfb, did you mean to look for .wav files in your filesystem root?
+[01:49:41] *** Joins: AcTiVaTe (~activate@host-m7ku8h.tnz1.zeelandnet.nl)
+[01:49:52] <nedbat> leftyfb: i see you said "/0*.wav" in one place, and "0*.wav" in another
+[01:49:59] <leftyfb> the line in the code is: subprocess.Popen(["aplay", sound_folder + collection + glob.glob('/0*.wav')[0]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+[01:50:08] <leftyfb> not sure why it removed / in the error message
+[01:50:12] <nedbat> leftyfb: what file pattern do you want to look for.
+[01:50:29] *** Joins: bradfordli123 (~bradfordl@c-73-158-14-36.hsd1.ca.comcast.net)
+[01:50:33] <leftyfb> nedbat: https://github.com/LowellMakes/fruitplayer/blob/Capcitive_touch_and_python/fruitplayer#L41
+[01:50:34] <nedbat> leftyfb: you didn't show us the whole error report
+[01:50:40] *** Joins: bmurt (~hmm@65.78.58.150)
+[01:50:53] <nedbat> leftyfb: yes, I see that line of code.  But is it what you want?
+[01:51:05] <nedbat> leftyfb: do you understand what glob.glob does?
+[01:51:06] <leftyfb> https://pastebin.ubuntu.com/p/FNJvj2By9R/
+[01:51:22] *** Quits: fc5dc9d4_ (~quassel@p5B081578.dip0.t-ipconnect.de) (Ping timeout: 264 seconds)
+[01:51:26] *** Quits: Debnet (~Marc@2a01:e0a:22:19d0:d17f:99dd:c83b:edb8) (Read error: Connection reset by peer)
+[01:51:26] *** Joins: Kundry_Wag (~Kundry_Wa@179.183.17.203)
+[01:51:27] <leftyfb> nedbat: yes I understand, allows me to use globbing (* for example)
+[01:51:28] <nedbat> leftyfb: the slash is in the error message/
+[01:51:42] *** Joins: brelane__ (~brelane@172-4-45-248.lightspeed.hstntx.sbcglobal.net)
+[01:51:44] <nedbat> leftyfb: ok, do you see the glob pattern you used? Is it right?
+[01:52:34] <leftyfb> it isls -l /usr/share/sounds/fruitplayer/mario/0*.wav
+[01:52:37] <leftyfb> oops
+[01:52:53] <leftyfb>  /usr/share/sounds/fruitplayer/mario/0-1up.wav
+[01:52:59] <leftyfb> it does exist
+[01:53:59] *** Joins: twandy (~Thunderbi@cas-fw-sta.inet.casair.net)
+[01:54:38] <nedbat> leftyfb: what pattern did you use in the glob? Type it here.
+[01:54:59] <leftyfb> subprocess.Popen(["aplay", sound_folder + collection + glob.glob('/0*.wav')[0]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+[01:55:14] <nedbat> leftyfb: a leading slash means the file has to be in the root directory, not the current directory
+[01:55:36] <nedbat> leftyfb: in your command prompt, type this:   ls /0*.wav
+[01:55:47] <Gustavo6046> So far, so good. But what if I added *extra* arguments to the NUMADD...
+[01:55:57] *** Joins: rajrajraj (uid72176@gateway/web/irccloud.com/x-slurbaagubipbwxa)
+[01:56:01] *** Joins: circuitbone (3d45d038@gateway/web/freenode/ip.61.69.208.56)
+[01:56:06] <leftyfb> >>> import glob
+[01:56:06] <leftyfb> >>> glob.glob('/usr/share/sounds/fruitplayer/mario/0*.wav')
+[01:56:06] <leftyfb> ['/usr/share/sounds/fruitplayer/mario/0-1up.wav']
+[01:56:12] <nedbat> leftyfb: looks good
+[01:56:21] *** Quits: strainwrld (~strainwrl@a81-84-187-95.cpe.netcabo.pt) (Ping timeout: 240 seconds)
+[01:56:28] <nedbat> Gustavo6046: you know we don't know the details you are talking about?
+[01:56:30] *** Quits: voidSurfr (~voidSurfr@cpe-76-169-244-100.socal.res.rr.com) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[01:56:34] <leftyfb> nedbat: the leading slash is needed as part of the concatenation of the full path
+[01:56:40] *** Quits: death916 (Elite19663@gateway/shell/elitebnc/x-rdwsppddgxoyneji) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[01:56:44] <nedbat> leftyfb: the leading slash is what's stopping it from working
+[01:56:51] <leftyfb> hm
+[01:56:52] <_habnabit> leftyfb, you're concatenating after you glob, not before you glob
+[01:56:56] <Gustavo6046> oh, yeah, sorry :P
+[01:57:28] *** Joins: sword865 (uid208942@gateway/web/irccloud.com/x-khgbpnelyodeqdqp)
+[01:58:01] *** Quits: takeme (~uuuuy@unaffiliated/takeme) (Quit: takeme)
+[01:58:04] <leftyfb> subprocess.Popen(["aplay", sound_folder + collection + "/" + glob.glob('0*.wav')[0]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+[01:58:05] <leftyfb> IndexError: list index out of range
+[01:58:35] *** Quits: Kundry_Wag (~Kundry_Wa@179.183.17.203) (Ping timeout: 240 seconds)
+[01:58:37] *** Joins: chargen (~chargen@217.156.21.95.dynamic.jazztel.es)
+[01:58:42] <nedbat> leftyfb: now is the time to learn some debugging techniques.
+[01:58:43] *** Quits: setham (~textual@unaffiliated/setham) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[01:59:05] <nedbat> leftyfb: before that line, put this:  wavs = glob.glob('0*.wav');  print(wavs)
+[01:59:42] <leftyfb> nedbat: I'll try but it's not going to work
+[01:59:46] <leftyfb> because it's not in the full paht
+[01:59:47] <leftyfb> path*
+[01:59:49] *** Quits: eht (~eht@c-73-118-141-207.hsd1.wa.comcast.net) (Ping timeout: 256 seconds)
+[02:00:02] <nedbat> leftyfb: ok, but you'll have some information to work with.
+[02:00:04] <leftyfb> it printed []
+[02:00:14] <nedbat> leftyfb: this wasn't meant to fix things, it's meant to make the failure clearer
+[02:00:28] <nedbat> leftyfb: glob.glob works in the current directory.  Your wav files are elsewhere.
+[02:00:40] <leftyfb> I know that, but I know enough that you can't get a list of files in a directory if you're not in that directory
+[02:00:55] <nedbat> leftyfb: you can use a glob pattern with a full path
+[02:01:19] *** Joins: Death916_ (Elite19663@gateway/shell/elitebnc/x-kqgcmwyveknxpiot)
+[02:01:21] *** Joins: Snircle (~textual@2600:8801:c404:7900:8966:dc92:b577:4872)
+[02:01:31] <leftyfb> see, that's what I was hinting at above, let me try it ... sticking all the concatenation inside the glob
+[02:02:25] *** Quits: Snircle (~textual@2600:8801:c404:7900:8966:dc92:b577:4872) (Client Quit)
+[02:03:17] *** Joins: R0b0t1 (~~@unaffiliated/r0b0t1)
+[02:03:21] *** Quits: logithack (logithack@gateway/shell/elitebnc/x-xtiuphbnrjkcnqmp) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[02:03:21] *** Quits: pradhvan (Elite20653@gateway/shell/elitebnc/x-edigqhiikvlpgtfx) (Write error: Connection reset by peer)
+[02:03:28] *** Quits: ycon_ (~ycon_@120.17.225.110) (Remote host closed the connection)
+[02:04:09] *** Quits: Elodin (~weechat@unaffiliated/padawan) (Ping timeout: 260 seconds)
+[02:04:23] *** Joins: detseg (~segv@35.128.29.238)
+[02:05:00] *** Joins: plutoniix (~q@175.176.222.7)
+[02:05:01] *** Joins: sysfault (~exalted@pool-108-53-157-115.nwrknj.fios.verizon.net)
+[02:05:24] *** Joins: Rollabunna (~Rollabunn@2400:2410:2841:f000:a560:5cc:6a7d:ef49)
+[02:05:57] *** Quits: mipesom (~mipesom@p200300E6EF3E0B001A75B2C71105E62E.dip0.t-ipconnect.de) (Quit: Leaving)
+[02:06:05] *** Quits: Burrito (~Burrito@unaffiliated/burrito) (Ping timeout: 240 seconds)
+[02:06:09] <leftyfb> bingo!
+[02:06:18] <leftyfb> thanks guys!
+[02:06:21] *** Quits: mmercer (~mmercer@50-196-185-26-static.hfc.comcastbusiness.net) (Quit: WeeChat 2.0.1)
+[02:07:26] *** Quits: yesno (~amrqx@unaffiliated/amrqx) (Remote host closed the connection)
+[02:07:37] *** Quits: rudrab (~rudrab@14.139.59.140) (Quit: rudrab)
+[02:07:38] *** Joins: puff (~user@erx-public-hackpgh.core.pittmesh.net)
+[02:07:51] *** Joins: yesno (~amrqx@unaffiliated/amrqx)
+[02:07:57] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[02:08:08] *** Joins: tjf (~tjf@unaffiliated/tjf)
+[02:08:39] *** Joins: jlf (~jlf@pdpc/supporter/active/jlf)
+[02:08:48] *** Quits: thurin (thurin@thurin.org) (Quit: quit)
+[02:09:39] *** Joins: thurin (~thurin@thurin.org)
+[02:09:46] *** Joins: chasonchaffin (~chasoncha@fsf/member/chasontherobot)
+[02:09:52] *** Joins: mipesom (~mipesom@p200300E6EF3E0B001A75B2C71105E62E.dip0.t-ipconnect.de)
+[02:10:32] *** Quits: Rollabunna (~Rollabunn@2400:2410:2841:f000:a560:5cc:6a7d:ef49) (Ping timeout: 276 seconds)
+[02:10:51] *** Joins: twandy1 (~Thunderbi@2606:7400:c16::f252)
+[02:11:54] *** Joins: rsmith31415 (~rsmith314@fixed-187-189-156-11.totalplay.net)
+[02:11:59] *** Quits: _jepe (~jepe@63.85.148.66) (Remote host closed the connection)
+[02:12:36] *** Quits: baxx (~user@2a02:c7f:7a71:3400:3a5f:a59b:ac72:4b71) (Ping timeout: 256 seconds)
+[02:13:05] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Ping timeout: 240 seconds)
+[02:13:53] *** Quits: cURT (~Faux@46.182.18.128) (Ping timeout: 248 seconds)
+[02:14:14] *** Joins: prettybTech (~prettybTe@107-129-111-24.lightspeed.irvnca.sbcglobal.net)
+[02:14:36] *** Joins: pupher_ (~pupher@unaffiliated/pupher)
+[02:15:09] *** Quits: twandy1 (~Thunderbi@2606:7400:c16::f252) (Client Quit)
+[02:15:26] <Gustavo6046> Woah! I think it really works. Let me just see if I can fix this branch nonsense... (for some reason I pushed to the branch "origin" instead of "master"...)
+[02:15:37] *** Quits: ironi (~ironi@unaffiliated/ironi) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[02:15:47] <Gustavo6046> Then I'll send the link to Netbyte (my bytecode interpreter thing project)
+[02:16:11] *** Joins: cURT (~Faux@46.182.18.128)
+[02:16:19] *** Joins: wleslie (~verte@python/site-packages/verte)
+[02:18:14] *** Joins: dmartzol (~dmartzol@2601:241:8d00:4371:d473:e4be:a09e:7b57)
+[02:18:56] *** Joins: Kundry_Wag (~Kundry_Wa@179.183.17.203)
+[02:19:07] *** Quits: quarters (Elite20921@gateway/shell/elitebnc/x-dfdfzwoquzttugjy) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[02:19:38] *** Joins: giaco (~giaco@2-238-151-49.ip244.fastwebnet.it)
+[02:19:48] *** Death916_ is now known as death916
+[02:20:03] *** Joins: nexdev9 (~nexdev9@c-24-16-128-56.hsd1.wa.comcast.net)
+[02:20:03] *** Joins: logithack (logithack@gateway/shell/elitebnc/x-jadzixvbdqkukiha)
+[02:20:36] *** Joins: jeffspeff (~jeffspeff@209.141.208.197)
+[02:20:56] *** Joins: MoarSpaceFi (~Forgot_my@65.126.126.193)
+[02:21:42] *** Joins: Elodin (~weechat@unaffiliated/padawan)
+[02:23:31] *** Joins: twandy (~Thunderbi@2606:7400:c16::f252)
+[02:24:01] *** Parts: leo_ (~leo_@38.107.163.139) ()
+[02:25:14] *** Quits: ilmostro (~ilmostro@unaffiliated/ilmostro) (Quit: WeeChat 2.2)
+[02:25:39] *** Parts: nexdev9 (~nexdev9@c-24-16-128-56.hsd1.wa.comcast.net) ()
+[02:25:43] *** Quits: aneroid_ (~aneroid@2001:e68:5421:15ef:94b:ffc5:da60:72ab) (Quit: Leaving)
+[02:27:13] *** Quits: NomadJim_ (~NomadJim@pdpc/supporter/active/nomadjim) (Read error: Connection reset by peer)
+[02:28:53] <Gustavo6046> nedbat, you asked, so here it is https://github.com/Gustavo6046/Netbyte
+[02:28:59] *** Joins: ilmostro (~ilmostro@unaffiliated/ilmostro)
+[02:29:30] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Read error: Connection timed out)
+[02:29:55] *** Quits: al-damiri (uid142631@gateway/web/irccloud.com/x-qdrujklrhazdpuyd) (Quit: Connection closed for inactivity)
+[02:30:04] *** Quits: IJsbrand (~ttt@203.113.207.71) (Quit: IJsbrand)
+[02:30:05] *** Joins: gpp (~pretzel@85.203.22.110)
+[02:30:39] <gpp> im plotting some data with matplotlib like this "plt.plot(data[0].T)"
+[02:31:00] <gpp> this gives me a plot with 16 lines and 5800 x values
+[02:31:08] *** Joins: rns (~rns@2601:345:8302:b77:ccea:f902:d022:d5fa)
+[02:31:12] *** Joins: lagothrix (~lagothrix@unaffiliated/lagothrix)
+[02:31:13] <gpp> how can i isolate just 1 of those lines and its respective values
+[02:31:41] *** Joins: Buliarous (~gypsydang@unaffiliated/buliarous)
+[02:32:38] *** Joins: monoprotic (~monoproti@unaffiliated/monoprotic)
+[02:32:54] *** Joins: rudrab (~rudrab@14.139.59.140)
+[02:33:22] *** Quits: kosh (~kosh@12.191.14.2) (Ping timeout: 264 seconds)
+[02:34:23] *** Quits: lagothri1 (~lagothrix@unaffiliated/lagothrix) (Ping timeout: 256 seconds)
+[02:34:53] *** Quits: prettybTech (~prettybTe@107-129-111-24.lightspeed.irvnca.sbcglobal.net) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[02:35:21] *** Quits: rns (~rns@2601:345:8302:b77:ccea:f902:d022:d5fa) (Ping timeout: 240 seconds)
+[02:35:27] *** Joins: _Coffee (~quassel@2607:fea8:705f:f096:14a:4984:6ba:f1a6)
+[02:36:27] *** Quits: aeroevan (~evan@pool-100-15-250-112.washdc.fios.verizon.net) (Quit: ZNC 1.7.0 - https://znc.in)
+[02:36:35] *** Joins: NomadJim (~NomadJim@pdpc/supporter/active/nomadjim)
+[02:37:09] *** Joins: anickname (4474ab8b@gateway/web/freenode/ip.68.116.171.139)
+[02:38:01] *** Joins: giaco_ (giaco@gateway/vpn/privateinternetaccess/giaco)
+[02:38:41] *** Joins: aeroevan (~evan@pool-100-15-250-112.washdc.fios.verizon.net)
+[02:38:51] *** Quits: ilmostro (~ilmostro@unaffiliated/ilmostro) (Quit: WeeChat 2.2)
+[02:40:51] *** Quits: giaco (~giaco@2-238-151-49.ip244.fastwebnet.it) (Ping timeout: 240 seconds)
+[02:41:00] *** Joins: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com)
+[02:41:42] <anickname> hello
+[02:42:10] *** Quits: giaco_ (giaco@gateway/vpn/privateinternetaccess/giaco) (Remote host closed the connection)
+[02:42:19] *** Joins: skagerak (Elite20507@gateway/shell/elitebnc/x-vsehotgeioksxbyj)
+[02:42:38] *** Joins: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net)
+[02:42:44] <anickname> so I got this Python program that is communicating with this C++ exe through a subprocess.Popen stdin.write pipe
+[02:42:49] <anickname> and the Python program is writing these functions to the exe so that the exe can perform certain tasks on it(edited)
+[02:42:54] <anickname> the problem is is that the get-final string is never received by stdin
+[02:43:10] <anickname> let me rephrase
+[02:43:23] <anickname> I got this Python program that is communicating with this C++ exe through a subprocess.Popen stdin.write pipe
+[02:43:40] <anickname> and on Windows the stdin.write seems to be terminating / ending prematurely for some reason
+[02:43:52] <anickname> after I write a byte buffer to the stream, I cannot write anything else to stdin
+[02:43:54] *** Quits: nirakara (~nurks@105.184.142.208) (Ping timeout: 244 seconds)
+[02:43:59] <anickname> I don't have this problem on Linux / Mac
+[02:44:33] *** Joins: prettybTech (~prettybTe@216.240.55.18)
+[02:44:34] *** Joins: ilmostro (~ilmostro@unaffiliated/ilmostro)
+[02:45:09] *** Joins: zahlman (~zahlman@toroon4425w-lp130-03-74-12-95-1.dsl.bell.ca)
+[02:45:32] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[02:45:35] *** Quits: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com) (Ping timeout: 240 seconds)
+[02:45:43] *** Joins: ovnicraft (~textual@186.71.91.104)
+[02:46:09] *** Quits: gpp (~pretzel@85.203.22.110) (Ping timeout: 260 seconds)
+[02:46:26] *** Quits: aargonian (~aargonian@cpe-174-97-222-100.natwky.res.rr.com) (Remote host closed the connection)
+[02:46:29] *** Quits: NomadJim (~NomadJim@pdpc/supporter/active/nomadjim) (Ping timeout: 244 seconds)
+[02:46:33] *** Joins: twandy1 (~Thunderbi@cas-fw-sta.inet.casair.net)
+[02:47:01] <kevlarman> anickname: have you verified the child isn't exiting?
+[02:47:09] <anickname> yes
+[02:48:01] <kevlarman> what's the error?
+[02:48:33] *** Quits: stealth_ (~stealth_@216-197-160-97.regn.static.sasknet.sk.ca) (Quit: Leaving)
+[02:49:46] *** Joins: fflam (~mdt@ip70-179-20-127.sd.sd.cox.net)
+[02:49:57] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[02:49:58] *** Quits: redj (~quassel@bchmpq5707w-lp140-01-174-93-219-156.dsl.bell.ca) (Ping timeout: 240 seconds)
+[02:50:02] *** Quits: twandy (~Thunderbi@2606:7400:c16::f252) (Ping timeout: 265 seconds)
+[02:50:02] *** twandy1 is now known as twandy
+[02:50:30] <anickname> give me one second
+[02:50:42] *** Quits: Geren (68a233a3@gateway/web/freenode/ip.104.162.51.163) (Ping timeout: 252 seconds)
+[02:50:43] <_habnabit> anickname, subprocess is very poor at interactive IO
+[02:50:57] *** Quits: bendr_ (~azria@unaffiliated/innocent99) (Ping timeout: 240 seconds)
+[02:51:14] <_habnabit> anickname, you need an event loop for it. there's twisted and trio and (ugh) asyncio
+[02:53:05] *** Quits: fflam (~mdt@ip70-179-20-127.sd.sd.cox.net) (Read error: Connection reset by peer)
+[02:53:40] *** Joins: redj (~quassel@bchmpq5707w-lp140-01-174-93-219-156.dsl.bell.ca)
+[02:53:47] *** Joins: jepe (~jepe@63.85.148.66)
+[02:55:09] *** Quits: jwhisnant (jwhisnant@gateway/shell/elitebnc/x-bmbtaykakptrfwrj) (Quit: Bye.)
+[02:55:28] *** Joins: fflam (~mdt@ip70-179-20-127.sd.sd.cox.net)
+[02:56:00] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[02:56:18] *** Quits: BillyZane2 (~BillyZane@unaffiliated/billyzane) (Ping timeout: 244 seconds)
+[02:58:24] *** Quits: jepe (~jepe@63.85.148.66) (Ping timeout: 260 seconds)
+[02:59:48] *** Quits: lolidunno (~lolidunno@cpe-45-50-100-24.socal.res.rr.com) (Quit: Leaving)
+[02:59:58] *** Joins: prettybT_ (~prettybTe@2600:1700:3c60:5fa0:6155:4d45:c704:152)
+[03:00:44] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 260 seconds)
+[03:01:05] *** Quits: prettybTech (~prettybTe@216.240.55.18) (Ping timeout: 240 seconds)
+[03:01:13] *** Joins: slicklikeagato (slicklikea@gateway/vpn/privateinternetaccess/slicklikeagato)
+[03:01:59] *** Quits: malachi (~malconten@91.207.175.176) (Remote host closed the connection)
+[03:02:22] *** Quits: Madbrad200 (Madbrad@gateway/shell/elitebnc/x-gourdtmmgahfgixf) (Quit: Not even #Psychic forsaw this!)
+[03:02:22] *** Quits: yadnesh (Elite21518@gateway/shell/elitebnc/x-ovtsuopiwhavvoko) (Quit: EliteBNC 1.6.5 - http://elitebnc.org)
+[03:02:48] *** Quits: amirpro (~amirpro@41.235.169.127) (Quit: amirpro)
+[03:03:00] *** Quits: wleslie (~verte@python/site-packages/verte) (Quit: ~~~ Crash in JIT!)
+[03:03:09] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[03:03:17] *** Joins: UniFreak (~UniFreak@124.127.252.126)
+[03:03:43] *** Quits: bradfordli123 (~bradfordl@c-73-158-14-36.hsd1.ca.comcast.net) (Remote host closed the connection)
+[03:03:59] *** Joins: lolidunno (~lolidunno@cpe-45-50-100-24.socal.res.rr.com)
+[03:05:19] *** Joins: Vornicus (~Vorn@2605:e000:1218:48d:1d8b:3a9b:779e:96c2)
+[03:05:35] *** Joins: darkhanb (~darkhanb@ip68-224-95-5.lv.lv.cox.net)
+[03:05:47] *** Quits: braincrash (~braincras@62.48.233.234) (Quit: bye bye)
+[03:06:07] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[03:06:10] *** Joins: malachi (~malconten@91.207.175.176)
+[03:07:27] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 240 seconds)
+[03:08:32] *** Joins: Wulf4 (~Wulf@unaffiliated/wulf)
+[03:08:33] *** Quits: brelane__ (~brelane@172-4-45-248.lightspeed.hstntx.sbcglobal.net) (Quit: My MacBook Air has gone to sleep. ZZZzzz…)
+[03:08:37] *** Quits: anickname (4474ab8b@gateway/web/freenode/ip.68.116.171.139) (Quit: Page closed)
+[03:09:29] *** Quits: slicklikeagato (slicklikea@gateway/vpn/privateinternetaccess/slicklikeagato) (Quit: Textual IRC Client: www.textualapp.com)
+[03:09:30] *** Joins: braincrash (~braincras@62.48.233.234)
+[03:10:15] *** Quits: jab416171 (~jab416171@c-174-52-63-79.hsd1.ut.comcast.net) (Ping timeout: 244 seconds)
+[03:10:27] *** Quits: eDge_eNg (~edge_eng@unaffiliated/edge-eng/x-8536881) (Ping timeout: 240 seconds)
+[03:10:40] *** Joins: Madbrad200 (Madbrad@gateway/shell/elitebnc/x-cewugxmaqmqaohqj)
+[03:10:46] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 244 seconds)
+[03:12:16] *** Quits: Wulf (~Wulf@unaffiliated/wulf) (Ping timeout: 265 seconds)
+[03:12:16] *** Wulf4 is now known as Wulf
+[03:12:17] *** Quits: bmurt (~hmm@65.78.58.150) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[03:12:17] *** Quits: Vornicus (~Vorn@2605:e000:1218:48d:1d8b:3a9b:779e:96c2) (Ping timeout: 276 seconds)
+[03:12:39] *** Joins: BillyZane2 (~BillyZane@unaffiliated/billyzane)
+[03:12:52] *** Joins: `Cam (~textual@207.161.221.203.dial.dynamic.acc01-pano-bat.comindico.com.au)
+[03:13:36] *** Joins: cagomez (~cagomez@cpe-107-185-9-43.socal.res.rr.com)
+[03:15:07] *** Joins: Raed|Laptop (~Raed@2601:18c:8600:9be:3452:83e3:1ee5:7f71)
+[03:16:32] *** Quits: doubtful (~abhigenie@dyn-160-39-2-144.dyn.columbia.edu) (Quit: Going going gone....)
+[03:16:48] *** Quits: graphene (~graphene@46.101.134.251) (Read error: Connection reset by peer)
+[03:17:22] *** Quits: rudrab (~rudrab@14.139.59.140) (Quit: rudrab)
+[03:17:34] *** Joins: graphene (~graphene@46.101.134.251)
+[03:17:54] *** Joins: ycon_ (~ycon_@120.17.225.110)
+[03:18:05] *** Joins: NomadJim (~NomadJim@pdpc/supporter/active/nomadjim)
+[03:18:58] *** Quits: Kundry_Wag (~Kundry_Wa@179.183.17.203) (Remote host closed the connection)
+[03:19:05] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Ping timeout: 240 seconds)
+[03:21:38] *** Quits: detseg (~segv@35.128.29.238) (Quit: o/)
+[03:21:39] *** Quits: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net) (Ping timeout: 268 seconds)
+[03:21:48] *** Joins: jwhisnant (jwhisnant@gateway/shell/elitebnc/x-gfrzfcuzahqvzovt)
+[03:23:35] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[03:24:51] *** Quits: imp (~imp@201.6.142.175) (Quit: WeeChat 2.1)
+[03:24:51] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[03:25:09] *** Joins: lorddaedra (~lorddaedr@213.141.139.44)
+[03:27:01] *** Joins: wilbert (~wilbert@unaffiliated/wilbert)
+[03:27:10] *** Quits: mandeep_ (~mandeep@unaffiliated/mandeepb) (Quit: Leaving)
+[03:28:13] *** Quits: lorddaed_ (~lorddaedr@77.247.178.186) (Ping timeout: 265 seconds)
+[03:28:33] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 248 seconds)
+[03:30:28] *** Quits: dviola (~diego@unaffiliated/dviola) (Quit: WeeChat 2.2)
+[03:30:29] *** Quits: jeffspeff (~jeffspeff@209.141.208.197) (Ping timeout: 260 seconds)
+[03:30:34] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Remote host closed the connection)
+[03:31:04] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[03:32:43] *** Quits: Kestrel-029 (~Nicmavr@unaffiliated/nicmavr) (Read error: Connection reset by peer)
+[03:33:24] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[03:34:11] *** Joins: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net)
+[03:35:46] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Ping timeout: 264 seconds)
+[03:36:05] <cagomez> I have `S = 'abcd'`. if I call `sorted(S, key=lambda char: fn(char)`, the fn is being called on every character, right? and then the resulting values are used to actually sort the string?
+[03:37:26] <cagomez> I'm a little confused because the examples I've seen use the `key` param when sorting a *list* of elements, and a fn is called for every item of the list (see https://developers.google.com/edu/python/sorting#custom-sorting-with-key )
+[03:38:16] <cagomez> where as in the former, I think a fn is being called for every char in the string. would it be fair to say that the String is coerced into a List of elements ?
+[03:38:23] *** Joins: stitched_unicorn (~textual@sp183-74-193-21.msb.spmode.ne.jp)
+[03:38:37] <chasonchaffin> cagomez it's not so much coerced, but you are mostly right
+[03:38:49] <chasonchaffin> strings are a sequence type
+[03:38:55] *** Joins: AliGeyik (~Thunderbi@78.172.235.234)
+[03:39:10] <chasonchaffin> https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str
+[03:40:15] *** Joins: LambaInsaan (~lambainsa@115.249.71.2)
+[03:40:25] <grym> cagomez: iterating over a string gives you the string a character at a time. iterating over a list of strings gives you a string at a time
+[03:41:15] <cagomez> how would I sort the following such that the letters in each string are in order? `inp = ["abc", "bac", "cba"] ` . having trouble generating a key fn
+[03:41:40] <cagomez> I tried `sorted(inp, key=lambda word: [ord(c) for c in word]) `
+[03:42:03] <cagomez> sorry for spamming: it results in -> `['abc', 'bac', 'cba']`
+[03:42:12] <mud> cagomez: So you want the output ["abc", "abc", "abc"] ?
+[03:42:17] <cagomez> yes mud
+[03:42:17] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 244 seconds)
+[03:42:38] <kevlarman> cagomez: [sorted(s) for s in L] where L is your list of strings
+[03:42:49] <mud> Right, that ^
+[03:43:07] <mud> You don't want to sort the actual list you have, you want to sort the *elements* of the list
+[03:43:09] <cagomez> can it be done using lambda syntax?
+[03:43:32] <mud> You can do it with map, but it's less pythony I think
+[03:43:34] *** Joins: twandy (~Thunderbi@2606:7400:c16::f252)
+[03:43:47] <kevlarman> cagomez: yes, but generally when both lambdas and list comprehensions/generator expressions can be used, you should prefer the latter
+[03:43:55] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[03:44:19] *** Quits: swa_work (~swa_work@dhcp-108-168-59-24.cable.user.start.ca) (Quit: ZNC - https://znc.in)
+[03:44:22] <cagomez> true kevlarman. just wanted to know for pedagogical purposes
+[03:44:33] *** Joins: AliGeek (~Thunderbi@82.222.185.98)
+[03:44:39] <mud> map(sorted, ["abc", "cba"])
+[03:44:43] <kevlarman> sometimes you're stuck with using map though (like multiprocessing)
+[03:45:25] *** Joins: subho99 (~Subho@2402:3a80:a1f:d55f:cd3c:7c4f:d42f:c07b)
+[03:45:27] *** Quits: AliGeyik (~Thunderbi@78.172.235.234) (Ping timeout: 240 seconds)
+[03:45:28] *** AliGeek is now known as AliGeyik
+[03:45:46] *** Quits: subho99 (~Subho@2402:3a80:a1f:d55f:cd3c:7c4f:d42f:c07b) (Quit: Leaving)
+[03:46:07] <kevlarman> generator expressions are mostly logically equivalent to map/filter
+[03:46:54] <kevlarman> but they're easier to read and usually execute faster
+[03:47:39] *** Joins: nurdie (~nurdie@unaffiliated/nurdie)
+[03:47:42] *** Joins: mandeep_ (~mandeep@unaffiliated/mandeepb)
+[03:47:46] *** Joins: ebrau (~eric@69-165-250-14.cable.teksavvy.com)
+[03:47:51] *** Quits: mandeep_ (~mandeep@unaffiliated/mandeepb) (Remote host closed the connection)
+[03:48:06] <mud> Simple ones I personally think are easier to read as map/filter. But they don't get much love, and I grow tired of trying to figure out when it matters so I just avoid them.
+[03:49:03] <cagomez> got it to work with lambda , but as it's ugly: `[''.join(sorted(element, key=lambda word: [ord(c) for c in word])) for element in inp] `
+[03:49:03] *** Quits: ycon_ (~ycon_@120.17.225.110) (Read error: Connection reset by peer)
+[03:49:05] *** Joins: ycon__ (~ycon_@60-242-187-9.static.tpgi.com.au)
+[03:49:09] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 260 seconds)
+[03:50:20] <kevlarman> cagomez: that's already the sort order for strings, so the key is unnecessary
+[03:50:21] *** Quits: mud (~mud@unaffiliated/kadoban) (Quit: bye)
+[03:51:09] *** Joins: kexmex__ (~kexmex@unaffiliated/kexmex)
+[03:51:11] *** Joins: prettybTech (~prettybTe@2600:1700:3c60:5fa0:b4ac:341a:98ce:5e3a)
+[03:51:29] <cagomez> ah I see. the problem I was working with dictated a custom sort order for strings, so I'm still in that mindset
+[03:52:06] *** Quits: xekz (~kexmex@unaffiliated/kexmex) (Ping timeout: 244 seconds)
+[03:53:40] *** Quits: UniFreak (~UniFreak@124.127.252.126) (Quit: This computer has gone to sleep)
+[03:54:19] *** Joins: xall (~xall@ppp-27-55-67-197.revip3.asianet.co.th)
+[03:54:30] *** Quits: cagomez (~cagomez@cpe-107-185-9-43.socal.res.rr.com) (Remote host closed the connection)
+[03:54:37] *** Quits: Belxjander (~Belxjande@sourcemage/Mage/Abh-Elementalist) (Quit: AmigaOSv4.1.6+//PowerPC native)
+[03:54:46] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[03:54:48] *** Quits: prettybT_ (~prettybTe@2600:1700:3c60:5fa0:6155:4d45:c704:152) (Ping timeout: 265 seconds)
+[03:54:56] *** Joins: Belxjander (~Belxjande@sourcemage/Mage/Abh-Elementalist)
+[03:55:08] *** Joins: cagomez (~cagomez@cpe-107-185-9-43.socal.res.rr.com)
+[03:55:20] *** Quits: [itchyjunk] (~itchyjunk@unaffiliated/itchyjunk/x-1640057) (Remote host closed the connection)
+[03:55:38] *** Joins: purplex88 (~purplex88@unaffiliated/purplex88)
+[03:56:18] *** Quits: Geekologist (~me@unaffiliated/geekologist) (Remote host closed the connection)
+[03:57:39] *** Quits: twandy (~Thunderbi@2606:7400:c16::f252) (Quit: twandy)
+[03:57:51] *** Quits: nemosupremo (~textual@136.24.130.18) (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+[03:57:55] *** Joins: twandy (~Thunderbi@cas-fw-sta.inet.casair.net)
+[03:59:07] *** Joins: davr0s (~textual@host81-155-68-221.range81-155.btcentralplus.com)
+[03:59:09] *** Joins: sauvin (sauvin@about/linux/staff/sauvin)
+[03:59:21] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[03:59:34] *** Joins: swa_work (~swa_work@dhcp-108-168-59-24.cable.user.start.ca)
+[03:59:46] *** Quits: cagomez (~cagomez@cpe-107-185-9-43.socal.res.rr.com) (Ping timeout: 264 seconds)
+[03:59:58] *** Joins: reedz (~reedz___@209.95.51.101)
+[03:59:59] *** Joins: tmlpp (~teemu@g33.ip18.netikka.fi)
+[04:00:03] *** Joins: mandeep_ (mandeep@gateway/vpn/privateinternetaccess/mandeepb)
+[04:00:05] *** Joins: fatalhalt (~fatalhalt@c-67-163-60-93.hsd1.il.comcast.net)
+[04:00:21] *** Quits: andylavarre (~andy@mobile-166-170-22-206.mycingular.net) (Remote host closed the connection)
+[04:00:31] *** Quits: _Coffee (~quassel@2607:fea8:705f:f096:14a:4984:6ba:f1a6) (Remote host closed the connection)
+[04:00:59] *** Quits: Belxjander (~Belxjande@sourcemage/Mage/Abh-Elementalist) (Quit: AmigaOSv4.1.6+//PowerPC native)
+[04:01:17] *** Joins: Belxjander (~Belxjande@sourcemage/Mage/Abh-Elementalist)
+[04:01:29] *** Quits: RobNyc (~Xingyiqua@nylug/member/RobNyc) (Quit: Textual IRC Client: www.textualapp.com)
+[04:03:10] *** Joins: nurdie_ (~nurdie@unaffiliated/nurdie)
+[04:03:46] *** Joins: iflema (~ian@unaffiliated/iflema)
+[04:04:48] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[04:04:53] *** Quits: sauvin (sauvin@about/linux/staff/sauvin) (Max SendQ exceeded)
+[04:05:04] *** Quits: malachi (~malconten@91.207.175.176) (Quit: Leaving)
+[04:05:53] *** Quits: HaikUbuntu (~haikubunt@37.170.147.221) (Remote host closed the connection)
+[04:06:16] *** Joins: Rollabunna (~Rollabunn@2400:2410:2841:f000:1084:37b2:275d:cf9a)
+[04:06:34] *** Quits: puff (~user@erx-public-hackpgh.core.pittmesh.net) (Ping timeout: 244 seconds)
+[04:07:05] *** Quits: nurdie (~nurdie@unaffiliated/nurdie) (Ping timeout: 244 seconds)
+[04:07:31] *** Quits: ovnicraft (~textual@186.71.91.104) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[04:07:35] *** Joins: broono (~broono@27.38.241.51)
+[04:07:49] *** Joins: unness2 (~unness2@95-28-61-164.broadband.corbina.ru)
+[04:08:08] *** Quits: }ls{ (~kalle@unaffiliated/ls/x-8089558) (Quit: real life interrupt)
+[04:08:11] *** Joins: ovnicraft (~textual@186.71.91.104)
+[04:08:15] *** Joins: bradfordli123 (~bradfordl@2601:640:8201:e5b0:521:9d79:578:b712)
+[04:09:27] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[04:09:29] *** Quits: pupher_ (~pupher@unaffiliated/pupher) (Ping timeout: 276 seconds)
+[04:09:34] *** Joins: sauvin (sauvin@about/linux/staff/sauvin)
+[04:09:50] *** Joins: wilbert_ (~wilbert@unaffiliated/wilbert)
+[04:10:47] *** Quits: urodna (~urodna@unaffiliated/urodna) (Ping timeout: 276 seconds)
+[04:11:19] *** Quits: wilbert (~wilbert@unaffiliated/wilbert) (Ping timeout: 260 seconds)
+[04:11:24] *** Quits: nurdie_ (~nurdie@unaffiliated/nurdie) ()
+[04:11:26] *** Quits: Rollabunna (~Rollabunn@2400:2410:2841:f000:1084:37b2:275d:cf9a) (Ping timeout: 276 seconds)
+[04:11:47] *** Quits: con3 (~quassel@ml.sun.ac.za) (Read error: Connection reset by peer)
+[04:12:27] *** Joins: con3 (~quassel@ml.sun.ac.za)
+[04:14:36] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Quit: twandy)
+[04:14:49] *** Joins: twandy (~Thunderbi@2606:7400:c16::f252)
+[04:14:58] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[04:15:49] *** Quits: AliGeyik (~Thunderbi@82.222.185.98) (Quit: AliGeyik)
+[04:17:21] *** Quits: mandeep_ (mandeep@gateway/vpn/privateinternetaccess/mandeepb) (Ping timeout: 240 seconds)
+[04:18:54] *** Quits: reedz (~reedz___@209.95.51.101) (Ping timeout: 260 seconds)
+[04:19:00] *** Joins: puff (~user@pool-108-17-95-109.pitbpa.fios.verizon.net)
+[04:19:29] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 244 seconds)
+[04:19:53] *** Quits: twandy (~Thunderbi@2606:7400:c16::f252) (Ping timeout: 276 seconds)
+[04:21:21] *** Quits: computeiro (~computeir@191.54.172.155) (Ping timeout: 240 seconds)
+[04:21:24] *** Joins: lastmanstanding (~arjoonn@202.191.67.138)
+[04:21:38] *** Joins: walbo (ca90aa63@gateway/web/cgi-irc/kiwiirc.com/ip.202.144.170.99)
+[04:21:59] *** Joins: pupher_ (~pupher@unaffiliated/pupher)
+[04:22:06] <walbo> why am i getting error on preorder: https://paste.pound-python.org/show/dEwiRBYWWmo3CyWlltBN/
+[04:22:20] <walbo> AttributeError
+[04:23:04] <walbo> also if i do this
+[04:23:10] <walbo> "preorder(self.left_child)" i get NameError
+[04:23:35] <kevlarman> self.preorder for the latter
+[04:23:51] *** Quits: davis (~davis@70.130.78.202) (Ping timeout: 240 seconds)
+[04:23:56] *** Joins: Geekologist (~me@unaffiliated/geekologist)
+[04:24:14] *** Joins: UniFreak (~UniFreak@124.127.252.126)
+[04:24:18] <walbo> what
+[04:24:36] <Gustavo6046> Doing bytecode interpreters, along with compilers, is _way_ harder than I thought...
+[04:24:40] <Gustavo6046> Not that harder.
+[04:24:50] <Gustavo6046> It's just that I can't find if the error is in the compiler or in the interpreter.
+[04:25:00] <Gustavo6046> And everything binary is difficult to debug!
+[04:25:01] *** Joins: Saukk (~Saukk@91-156-131-210.elisa-laajakaista.fi)
+[04:25:06] *** Quits: prettybTech (~prettybTe@2600:1700:3c60:5fa0:b4ac:341a:98ce:5e3a) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[04:25:11] <kevlarman> Gustavo6046: there's a reason people love llvm so much :D
+[04:25:29] <walbo> i don't understand how on earth do i make a recursive call in python in this situation
+[04:26:00] <kevlarman> walbo: you make sure the thing you're attempting to call methods on is not None first
+[04:26:05] *** Joins: rrichardsr3 (~rrichards@pdpc/supporter/professional/rrichardsr3)
+[04:26:27] <walbo> i am checking if self is None
+[04:26:41] <grym> how could self _ever_ be none
+[04:26:45] <Gustavo6046> :)
+[04:26:56] <kevlarman> walbo: and then doing None.preorder() 5 lines later
+[04:27:01] *** Quits: LambaInsaan (~lambainsa@115.249.71.2) (Ping timeout: 268 seconds)
+[04:27:06] <kevlarman> or 6 depending on what your tree looks like
+[04:27:08] *** Quits: __charly__ (~charly@104-184-3-192.lightspeed.austtx.sbcglobal.net) (Quit: ZZZ)
+[04:27:20] <walbo> this is very confusing
+[04:27:20] *** Joins: twandy (~Thunderbi@cas-fw-sta.inet.casair.net)
+[04:27:26] <kevlarman> grym: don't ask questions you don't want answered
+[04:27:36] *** Quits: Raed|Laptop (~Raed@2601:18c:8600:9be:3452:83e3:1ee5:7f71) (Ping timeout: 256 seconds)
+[04:27:53] *** Quits: davr0s (~textual@host81-155-68-221.range81-155.btcentralplus.com) (Quit: My MacBook Pro has gone to sleep. ZZZzzz…)
+[04:28:11] <kevlarman> grym: it's possible to get the function object out of a method, so it won't implicitly fill in self
+[04:28:17] *** Joins: pdtpatrick (~pdtpatric@2620:10d:c090:180::1:df41)
+[04:28:33] <walbo> I am getting confused with the self that's the problem.
+[04:29:28] <TML> maks25: "Pass in a value for name and you’ll tell Beautiful Soup to only consider tags with certain names. Text strings will be ignored, as will tags whose names that don’t match."
+[04:29:38] <kevlarman> walbo: try it with a single element tree and see if it's more obvious why
+[04:29:39] *** Joins: ardzoht (~ardzoht@CableLink-187-161-147-23.PCs.InterCable.net)
+[04:29:45] *** Quits: stitched_unicorn (~textual@sp183-74-193-21.msb.spmode.ne.jp) (Quit: stitched_unicorn)
+[04:29:51] *** Joins: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com)
+[04:29:53] *** Quits: EvilRoey (~roey@flame-n.senet-int.com) (Ping timeout: 248 seconds)
+[04:30:10] <walbo> wtf??? I'm checking if self.left_child is not None: do recursion
+[04:30:12] <walbo> still not letting me
+[04:30:16] <TML> maks25: sorry, turns out I was scrolled up in my backlog - if you already figured your bs4 problem out, I apologize
+[04:30:27] <kevlarman> walbo: paste your new code and the error
+[04:30:28] *** Joins: kfoonamalik (~kfoonamal@c-73-241-42-56.hsd1.ca.comcast.net)
+[04:30:30] *** Joins: hardikjasani (uid269869@gateway/web/irccloud.com/x-cucujcsajzttjrxk)
+[04:30:52] <walbo> https://paste.pound-python.org/show/8lC2OUvdyX5qTiy4T9Fg/ name error
+[04:31:03] <walbo> 13
+[04:31:20] <kevlarman> walbo: self.preorder(...)
+[04:31:41] <walbo> TypeError now
+[04:32:56] *** Joins: davis (~davis@70.130.78.202)
+[04:32:59] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[04:33:26] *** Quits: deetwelve (~deetwelve@unaffiliated/deetwelve) (Quit: null)
+[04:33:29] *** Quits: sysrage (~sysrage@68-73-113-237.lightspeed.rlghnc.sbcglobal.net) (Ping timeout: 260 seconds)
+[04:33:33] <walbo> data structures are appearing harder in python than java :(
+[04:33:46] *** Joins: computeiro (~computeir@201.48.95.59)
+[04:33:59] *** Joins: mandeep_ (mandeep@gateway/vpn/privateinternetaccess/mandeepb)
+[04:34:28] *** Quits: circuitbone (3d45d038@gateway/web/freenode/ip.61.69.208.56) (Quit: Page closed)
+[04:34:34] <kevlarman> way easier actually
+[04:34:39] *** Quits: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com) (Ping timeout: 260 seconds)
+[04:34:46] *** Quits: mandeep_ (mandeep@gateway/vpn/privateinternetaccess/mandeepb) (Remote host closed the connection)
+[04:34:49] <kevlarman> but if java is the only thing you know it's kind of counterintuitive at first
+[04:35:05] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[04:35:12] <kevlarman> paste the new code and actually include the whole error please
+[04:35:17] *** Quits: codebam (~codebam@unaffiliated/codebam) (Remote host closed the connection)
+[04:35:42] *** Quits: knifefork (~textual@pool-173-48-186-26.bstnma.fios.verizon.net) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[04:36:11] *** Joins: codebam (~codebam@unaffiliated/codebam)
+[04:36:21] *** Joins: drduck (~user@2600:1700:6890:6960:f502:51c6:6a6b:3fec)
+[04:36:26] *** Quits: walbo (ca90aa63@gateway/web/cgi-irc/kiwiirc.com/ip.202.144.170.99) (Quit: http://www.kiwiirc.com/ - A hand crafted IRC client)
+[04:36:39] <cyanide> using python2.7, strings are immutable but i need to go inside a loop and change a string under certain conditions. is that doable?
+[04:37:00] <cyanide> because declaring a variable as None then doesn't allow me to concat the string with something else later on..
+[04:37:02] *** Quits: ogres (uid159312@gateway/web/irccloud.com/x-tewvfbagyjvobhpw) (Quit: Connection closed for inactivity)
+[04:37:02] <kevlarman> cyanide: yes, but how depends on what you want
+[04:37:30] <drduck> Does anyone here use, the Emacs package, Elpy, and if so do you know of a way to get hot-reload capabilities with it?
+[04:37:43] <cyanide> so i can't declare it as None, then change the value in the loop and later on concatenate something else to it: TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+[04:38:01] <cyanide> can you declare an empty variable as string specifically?
+[04:38:08] <kevlarman> cyanide: ""
+[04:38:18] <cyanide> that makes it immutable, no?
+[04:38:23] <kevlarman> yes
+[04:38:31] <kevlarman> but that usually isn't a problem
+[04:38:45] *** Joins: LambaInsaan (~lambainsa@106.51.36.9)
+[04:38:59] <kevlarman> x = ""; x += "foo"; x += "bar"; works just fine
+[04:39:48] <kevlarman> it creates 3 strings (depending on how you count), and reassigns the newest one to x each time
+[04:39:54] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 260 seconds)
+[04:40:56] *** Joins: deetwelve (~deetwelve@unaffiliated/deetwelve)
+[04:41:27] *** Quits: indeedwatson (~yama@host123.190-224-151.telecom.net.ar) (Ping timeout: 240 seconds)
+[04:41:41] <cyanide> ok
+[04:42:01] *** Joins: prettybTech (~prettybTe@2600:1700:3c60:5fa0:599f:c4a1:fa32:b4ce)
+[04:42:09] *** Quits: xall (~xall@ppp-27-55-67-197.revip3.asianet.co.th) (Quit: xall)
+[04:44:15] *** Quits: ycon__ (~ycon_@60-242-187-9.static.tpgi.com.au) (Remote host closed the connection)
+[04:44:24] *** Joins: sysrage (~sysrage@68-73-113-237.lightspeed.rlghnc.sbcglobal.net)
+[04:44:33] <grym> drduck: hot-reloading is a thing that doesn't super work; elpy is no better or worse than anything else that tries
+[04:44:34] *** Quits: UniFreak (~UniFreak@124.127.252.126) (Quit: This computer has gone to sleep)
+[04:44:48] *** Quits: purplex88 (~purplex88@unaffiliated/purplex88) (Ping timeout: 244 seconds)
+[04:44:50] *** Joins: cagedwisdom (80c73cda@gateway/web/freenode/ip.128.199.60.218)
+[04:45:06] *** Joins: karab44 (~karab44@unaffiliated/karab44)
+[04:45:09] *** Quits: zuppa_2 (~zuppa@gateway/tor-sasl/zuppa) (Ping timeout: 250 seconds)
+[04:45:18] *** Quits: kexmex__ (~kexmex@unaffiliated/kexmex) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[04:45:28] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[04:45:57] *** Joins: purplex88 (~purplex88@unaffiliated/purplex88)
+[04:46:13] <cagedwisdom> What does this mean in python syntax: X = Activation('relu')(X) - because it looks like casting to me but i dont think thats right
+[04:46:19] *** Quits: white_lilies (~jtdoncas@toroon0247w-lp130-01-74-12-138-126.dsl.bell.ca) (Ping timeout: 260 seconds)
+[04:46:25] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 256 seconds)
+[04:46:33] <_habnabit> cagedwisdom, it's just calling the result of calling a thing
+[04:46:34] <TML> xxyxx: Activation('relu') returns a function which takes a single argument X
+[04:46:41] <TML> s/ xxyxx/ cagedwisdom/
+[04:46:46] <drduck> grym: Doesn't /super work/? Could you elaborate a tad bit please?
+[04:47:03] <TML> cagedwisdom: The result of calling Activation('relu')(X) is then assigned back to the variable X
+[04:47:04] <grym> drduck: module reloading is guaranteed to do wacky things if you try hard enough
+[04:47:09] <grym> and you don't have to try very hard
+[04:47:11] <_habnabit> module reloading never works
+[04:47:24] <drduck> Ahh
+[04:47:26] <cagedwisdom> TML: that makes sense. cheers
+[04:47:45] *** Quits: pdtpatrick (~pdtpatric@2620:10d:c090:180::1:df41) (Remote host closed the connection)
+[04:47:59] <kevlarman> drduck: unloading a module is impossible, you have to load the new one and hope you found and got rid of all references to the old one
+[04:48:27] <_habnabit> and finding all the old references is impossible
+[04:48:28] *** Joins: walbo (ca90aa63@gateway/web/freenode/ip.202.144.170.99)
+[04:48:36] <_habnabit> at that point you should just restart the process
+[04:48:36] *** Quits: lurkashflake (~lurkashfl@unaffiliated/lurkashflake) (Ping timeout: 268 seconds)
+[04:48:38] <kevlarman> drduck: and the second part is basically impossible for anything longer than hello world
+[04:48:39] <TML> maybe Python 4000 will bring hot reload :)
+[04:48:50] <kevlarman> TML: it would no longer be python then
+[04:48:52] <_habnabit> TML, it requires a fundamental redesign
+[04:49:33] <grym> unrelatedly i finally started using flycheck and it's pretty gr8
+[04:49:39] <_habnabit> yes it is
+[04:49:50] <drduck> yikes
+[04:49:52] <walbo> why am i getting typeerror: https://paste.pound-python.org/show/phjFGr8fchuKJaYwgGYl/
+[04:50:09] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 248 seconds)
+[04:50:18] <_habnabit> walbo, idk; where's the exception?
+[04:50:18] <kevlarman> walbo: include the error when you're pasting it
+[04:50:52] <walbo> I did??? TypeError #13 like commented
+[04:50:59] *** Quits: him-cesjf (~cesjf@unaffiliated/himcesjf) (Ping timeout: 260 seconds)
+[04:51:04] <kevlarman> walbo: paste the whole backtrace
+[04:51:07] <walbo> Exception : TypeError ::  line 13 ::  in preorder     self.preorder(self.left_child)
+[04:51:13] <kevlarman> it contains useful information
+[04:51:16] <walbo> pid 1491
+[04:51:24] *** Joins: him-cesjf (~cesjf@unaffiliated/himcesjf)
+[04:51:32] <_habnabit> walbo, just copy-paste the whole output into the pastebin
+[04:51:42] <walbo> ... that is literally it
+[04:51:47] <_habnabit> walbo, no it isn't :)
+[04:51:52] <kevlarman> walbo: there should be at least 2 more lines
+[04:52:02] <walbo> I'm on firecode so maybe they're hiding some.
+[04:52:08] <TML> walbo: self.preorder() as defined doesn't take the node as an argument
+[04:52:31] <walbo> am I suppose to add it or is there a way around it TML
+[04:52:32] <_habnabit> walbo, screencap it
+[04:52:42] <kevlarman> tml is more awake than i am apparently
+[04:52:52] <TML> walbo: Well, I don't know what you're expecting this "preorder" method to *do*.
+[04:53:18] <walbo> Recursively traverse the tree in a preorder manner, mark nodes visited by adding its data to the list pre)ordered_list
+[04:53:22] <kevlarman> walbo: self.left_child.preorder()
+[04:53:29] *** Joins: bmos (~bmo@c-174-62-124-201.hsd1.ca.comcast.net)
+[04:53:36] <TML> then what kevlarman said
+[04:53:53] *** Joins: rudrab (~rudrab@14.139.59.140)
+[04:54:10] <walbo>  T_T thanks thought I tried that, but i think i forgot the self.
+[04:54:29] *** Quits: ebrau (~eric@69-165-250-14.cable.teksavvy.com) (Ping timeout: 260 seconds)
+[04:54:59] <TML> walbo: https://repl.it/repls/AdmirableVastArchives
+[04:55:25] <walbo> Yeah it works thakns
+[04:55:34] *** Quits: rudrab (~rudrab@14.139.59.140) (Client Quit)
+[04:55:49] *** Joins: rudrab (~rudrab@14.139.59.140)
+[04:55:49] *** Joins: sunil_bansal (~sunil_ban@123.63.30.29)
+[04:56:27] <TML> walbo: though it feels a bit dirty to me to have the method manipulate global state that way
+[04:57:08] <walbo> Yeah really confused me tbh, wonder why they made me do that?
+[04:57:18] <TML> who is "they"?
+[04:57:30] <grym> walbo: are you taking a coding interview
+[04:57:31] <walbo> It's just a site like leetcode, they give you problems to complete
+[04:57:40] <walbo> Yep interview practice
+[04:58:19] <TML> walbo: I would probably have done something more like https://repl.it/repls/GrowlingUnacceptablePackagedsoftware
+[04:58:19] *** Quits: yohnnyjoe (~yohnnyjoe@c-73-129-2-10.hsd1.dc.comcast.net) (Ping timeout: 256 seconds)
+[04:58:49] *** Quits: drduck (~user@2600:1700:6890:6960:f502:51c6:6a6b:3fec) (Remote host closed the connection)
+[04:58:53] <walbo> ahh
+[04:58:53] *** Quits: james41382_ (~james4138@unaffiliated/james41382) (Read error: Connection reset by peer)
+[04:59:37] *** Joins: platvoeten (~platvoete@178-85-122-247.dynamic.upc.nl)
+[04:59:50] <kevlarman> TML: if we're getting picky you ditch the recursion cause python tends to get grouchy when your stack is too tall
+[05:00:01] <TML> fair enough :)
+[05:00:18] *** Quits: twandy (~Thunderbi@cas-fw-sta.inet.casair.net) (Ping timeout: 244 seconds)
+[05:00:40] <TML> I just picked at the nit I was familiar with
+[05:00:51] *** Joins: Laif (~mp@unaffiliated/laif)
+[05:00:58] <kevlarman> and not the java style get methods? :P
+[05:01:07] *** Joins: palasso (~palasso@unaffiliated/palasso)
+[05:01:27] <TML> I wasn't trying to rewrite his whole code base, just the thing that made me feel the most icky
+[05:01:47] *** Joins: jack_rabbit (~jack_rabb@c-73-211-181-224.hsd1.il.comcast.net)
+[05:01:51] *** Quits: ardzoht (~ardzoht@CableLink-187-161-147-23.PCs.InterCable.net) (Ping timeout: 244 seconds)
+[05:02:35] <jack_rabbit> pip search gobject shows 'gobject (0.1.0)'
+[05:02:55] <jack_rabbit> pip install gobject shows 'Could not find a version that satisfies the requirement gobject (from versions: )'
+[05:03:26] *** Quits: isokee (~isokee@unaffiliated/isokee) (Quit: ZZZzzzz...)
+[05:03:43] *** Joins: dfee (~dfee@cpe-70-95-143-62.san.res.rr.com)
+[05:03:52] *** Joins: meandi_2 (~meandi_4@dyndsl-037-138-017-139.ewe-ip-backbone.de)
+[05:04:07] *** Joins: mandeep_ (~mandeep@unaffiliated/mandeepb)
+[05:04:42] <jack_rabbit> what do I do about that!
+[05:04:50] <jack_rabbit> s/!/?/
+[05:05:10] *** Quits: AvianFlu (~avianflu@freedom.sexy) (Ping timeout: 264 seconds)
+[05:05:21] <grym> jack_rabbit: use python 3, looks like
+[05:05:30] *** Quits: walbo (ca90aa63@gateway/web/freenode/ip.202.144.170.99) (Quit: Page closed)
+[05:05:50] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[05:06:13] <kevlarman> odd that pip2 finds it at all
+[05:06:18] *** Joins: ECDHE_RSA_AES256 (~quassel@unaffiliated/ecdhe)
+[05:07:05] *** Quits: meandi (~meandi_4@dyndsl-031-150-067-132.ewe-ip-backbone.de) (Ping timeout: 240 seconds)
+[05:08:09] <jack_rabbit> mmm
+[05:08:31] *** Joins: webs (75c3ad9f@gateway/web/freenode/ip.117.195.173.159)
+[05:08:34] *** Quits: Lordvan_ (~LordVan@gentoo/developer/LordVan) (Ping timeout: 244 seconds)
+[05:08:48] <webs> hel;p!
+[05:08:53] *** Joins: gthank_ (~hank@unaffiliated/gthank)
+[05:08:55] <webs> user = models.OneToOneField(User)
+[05:08:58] *** Joins: darthThorik_ (sid39589@gateway/web/irccloud.com/x-nhexnecptfbtuvcf)
+[05:09:04] *** Quits: plutoniix (~q@175.176.222.7) (Quit: Leaving)
+[05:09:15] <webs> should i put user = models.OneToOneField(User, on_delete=models.CASCADE) or user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)?
+[05:09:20] <webs> :(
+[05:09:25] <webs> instead?
+[05:09:26] *** Joins: kinnou_ (~kinou@rilynett.com)
+[05:09:27] <grym> webs: only you know your code
+[05:09:35] *** Joins: Tano_ (~notgiven@unaffiliated/tano)
+[05:09:48] <webs> from django.db import models from django.contrib.auth.models import User  # Create your models here.  class UserProfile(models.Model): 	"""docstring for UserProfile""" 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+[05:10:01] <webs> grym:
+[05:10:07] <webs> thats the thingy?
+[05:10:35] <webs> Lartza:
+[05:10:38] <webs> you too!
+[05:10:40] *** Joins: Calinou_ (~quassel@fsf/member/calinou)
+[05:10:42] <webs> help :P
+[05:10:43] *** Joins: FreeFull_ (~freefull@defocus/sausage-lover)
+[05:10:44] <grym> webs: use a pastebin next time please; i don't really speak django but i can only assume that you need to know beforehand if the list of users ought to be unique or not
+[05:10:48] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 268 seconds)
+[05:11:04] *** Joins: Lordvan_ (~LordVan@gentoo/developer/LordVan)
+[05:11:08] *** Joins: chasinglogic (~chasinglo@138.197.78.194)
+[05:11:16] *** Joins: nando294021 (~Nando15@cpe-76-185-128-7.satx.res.rr.com)
+[05:11:19] <webs> yeah but whats the difference if its onetoone anyways?
+[05:11:24] *** Joins: tdy (~tdy@unaffiliated/tdy)
+[05:11:30] *** Joins: sral_ (~lars@unaffiliated/violator)
+[05:11:31] <kevlarman> webs: most likely there isn't one
+[05:11:31] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[05:11:34] <webs> omg wait i might need to go to #django right?
+[05:11:39] <TML> webs: Are you saying you want us to guess what your desired behaviour is, or are you saying you can describe the desired behaviour, but don't know the correct code to write to achieve that?
+[05:11:40] *** Joins: bllll (~irc@go.ballsdeep.com)
+[05:11:43] *** Joins: m4rCsi (~shoar@helo.marcsi.ch)
+[05:11:43] <kevlarman> webs: yes that's a good idea
+[05:11:52] *** Joins: yawkat` (~yawkat@cats.coffee)
+[05:11:53] <webs> xD
+[05:12:00] *** Joins: danmackay_ (dan@unaffiliated/danmackay)
+[05:12:09] <webs> tml its like a userprofile
+[05:12:59] <TML> webs: That doesn't answer my question.
+[05:13:03] *** Joins: dotcra (~dotcra@unaffiliated/dotcra)
+[05:14:09] <webs> i dint understand x_x
+[05:14:10] *** Quits: rudrab (~rudrab@14.139.59.140) (Remote host closed the connection)
+[05:14:54] <kevlarman> TML: he wants to know if the unique changes anything since it's already onetoone, and #django is far more likely to know the answer to such a specific question
+[05:15:10] <webs> yeah i just saw it was #python xD
+[05:15:14] *** Quits: uptime (alore@unaffiliated/uptime) (Killed (kornbluth.freenode.net (Nickname regained by services)))
+[05:15:18] <webs> so i asked it on #django now
+[05:15:28] <kevlarman> (i really wish i was worse at decoding half-coherent questions)
+[05:15:39] <webs> :P kevlarman
+[05:16:02] *** Joins: habnabit (~habnabit@python/site-packages/habnabit)
+[05:16:02] *** Joins: RaptorJesus (~RAWR@dogecoin/staff/raptorjesus)
+[05:16:07] *** Joins: uptime (alore@unaffiliated/uptime)
+[05:16:18] *** Joins: PulseAsio (~PulseAsio@unaffiliated/pulseasio)
+[05:16:21] *** Joins: shakalaka (~shakalaka@ec2-52-52-27-0.us-west-1.compute.amazonaws.com)
+[05:16:27] *** Joins: james41382 (~james4138@unaffiliated/james41382)
+[05:16:28] *** Quits: prettybTech (~prettybTe@2600:1700:3c60:5fa0:599f:c4a1:fa32:b4ce) (*.net *.split)
+[05:16:28] *** Quits: pupher_ (~pupher@unaffiliated/pupher) (*.net *.split)
+[05:16:28] *** Quits: bradfordli123 (~bradfordl@2601:640:8201:e5b0:521:9d79:578:b712) (*.net *.split)
+[05:16:28] *** Quits: BillyZane2 (~BillyZane@unaffiliated/billyzane) (*.net *.split)
+[05:16:28] *** Quits: dmartzol (~dmartzol@2601:241:8d00:4371:d473:e4be:a09e:7b57) (*.net *.split)
+[05:16:28] *** Quits: sword865 (uid208942@gateway/web/irccloud.com/x-khgbpnelyodeqdqp) (*.net *.split)
+[05:16:28] *** Quits: rajrajraj (uid72176@gateway/web/irccloud.com/x-slurbaagubipbwxa) (*.net *.split)
+[05:16:28] *** Quits: skagerak (Elite20507@gateway/shell/elitebnc/x-vsehotgeioksxbyj) (*.net *.split)
+[05:16:28] *** Quits: neteffect (Elite21294@gateway/shell/elitebnc/x-allxmhmfzooedrwd) (*.net *.split)
+[05:16:28] *** Quits: fuze (uid76888@gateway/web/irccloud.com/x-gimflmllodyaykyx) (*.net *.split)
+[05:16:28] *** Quits: cfoch (uid153227@gateway/web/irccloud.com/x-mrsawvmjvspfxmir) (*.net *.split)
+[05:16:28] *** Quits: ExploitedKernel (~User@2607:fea8:e31f:feb3:ec74:9541:305c:979c) (*.net *.split)
+[05:16:28] *** Quits: aalmazan (uid180785@gateway/web/irccloud.com/x-zlpmxqpysggnfuje) (*.net *.split)
+[05:16:28] *** Quits: kajo (~kajo@2a02:908:2f33:d560:8e10:876f:c7a8:294d) (*.net *.split)
+[05:16:28] *** Quits: Arcaelyx (~Arcaelyx@2604:2000:f14a:2500:bd14:4432:dbbb:f924) (*.net *.split)
+[05:16:28] *** Quits: jasmith (~jasmith@2600:8803:7a00:e46:1adb:f2ff:fe12:c3ff) (*.net *.split)
+[05:16:28] *** Quits: lukeshu (~lukeshu@ramhost.lukeshu.com) (*.net *.split)
+[05:16:28] *** Quits: Aa155 (~Aa155@foxtrot.agx.co) (*.net *.split)
+[05:16:28] *** Quits: chasinglogic_ (~chasinglo@138.197.78.194) (*.net *.split)
+[05:16:28] *** Quits: snits (jsnitsel@nat/redhat/x-seylbvdqexvscsnt) (*.net *.split)
+[05:16:28] *** Quits: madbytes (uid207298@gateway/web/irccloud.com/x-halzzxmcwmdrohts) (*.net *.split)
+[05:16:28] *** Quits: ultrashag (ultrashag@gateway/shell/firrre/x-hondsfrrhbljsxcl) (*.net *.split)
+[05:16:28] *** Quits: marduk191 (marduk191@unaffiliated/marduk191) (*.net *.split)
+[05:16:28] *** Quits: ecdhe (~quassel@unaffiliated/ecdhe) (*.net *.split)
+[05:16:28] *** Quits: shabius (~shabius@2a07:241:1:1024::1001) (*.net *.split)
+[05:16:28] *** Quits: yn (~yano@freenode/staff-emeritus/yano) (*.net *.split)
+[05:16:28] *** Quits: altendky (uid135382@gateway/web/irccloud.com/x-uuytrvtfxemvzupq) (*.net *.split)
+[05:16:28] *** Quits: MichaelSasser (~michaelsa@sassernet.de) (*.net *.split)
+[05:16:28] *** Quits: Affliction (affliction@2402:1f00:8101:135::) (*.net *.split)
+[05:16:28] *** Quits: avu (~jan@unaffiliated/avu) (*.net *.split)
+[05:16:28] *** Quits: mcspud (~mcspud@2607:fcd0:100:4d05::5d03:f86a) (*.net *.split)
+[05:16:28] *** Quits: duoi (~duoi@unaffiliated/duoi) (*.net *.split)
+[05:16:29] *** Quits: Orbstheorem (~roosember@hellendaal.orbstheorem.ch) (*.net *.split)
+[05:16:29] *** Quits: heftig (heftig@archlinux/developer/heftig) (*.net *.split)
+[05:16:29] *** Quits: TheReverend403 (is@revthefox.co.uk) (*.net *.split)
+[05:16:29] *** Quits: white_devil (uid309545@gateway/web/irccloud.com/x-wgsuoglptpichgct) (*.net *.split)
+[05:16:29] *** Quits: tpr (~tpr@unaffiliated/teprrr) (*.net *.split)
+[05:16:29] *** Quits: grateful (~grateful@unaffiliated/grateful) (*.net *.split)
+[05:16:29] *** Quits: yawkat (~yawkat@cats.coffee) (*.net *.split)
+[05:16:29] *** Quits: CheckYourSix (~quassel@unaffiliated/checkyoursix) (*.net *.split)
+[05:16:29] *** Quits: Mechanismus (~LabMonkey@2602:306:cf62:e270:41b4:be7c:a9d7:7127) (*.net *.split)
+[05:16:29] *** Quits: armin (~armin@engine.vpn.blue) (*.net *.split)
+[05:16:29] *** Quits: nando293921 (~Nando15@cpe-76-185-128-7.satx.res.rr.com) (*.net *.split)
+[05:16:29] *** Quits: Tano (~notgiven@unaffiliated/tano) (*.net *.split)
+[05:16:29] *** Quits: LogicAside (~TOG@unaffiliated/thatotherguy) (*.net *.split)
+[05:16:29] *** Quits: _habnabit (~habnabit@python/site-packages/habnabit) (*.net *.split)
+[05:16:29] *** Quits: lz1dev (~rgp@unaffiliated/lz1dev) (*.net *.split)
+[05:16:29] *** Quits: weylin (~weylin@unaffiliated/weylin) (*.net *.split)
+[05:16:29] *** Quits: l0rdkermit (~user@c-67-170-176-90.hsd1.or.comcast.net) (*.net *.split)
+[05:16:29] *** Quits: sdhand (~sam@unaffiliated/kyubiko) (*.net *.split)
+[05:16:29] *** Quits: FreeFull (~freefull@defocus/sausage-lover) (*.net *.split)
+[05:16:29] *** Quits: Calinou (~quassel@fsf/member/calinou) (*.net *.split)
+[05:16:29] *** Quits: danmackay (dan@unaffiliated/danmackay) (*.net *.split)
+[05:16:29] *** Quits: snazzybunny (~snazzybun@pool-100-12-174-102.nycmny.fios.verizon.net) (*.net *.split)
+[05:16:29] *** Quits: Nickeeh (~quassel@bulbasaur.sjorsgielen.nl) (*.net *.split)
+[05:16:29] *** Quits: dotc (~dotcra@unaffiliated/dotcra) (*.net *.split)
+[05:16:29] *** Quits: coderphive (uid308245@gateway/web/irccloud.com/x-stijxuurogmuoqgi) (*.net *.split)
+[05:16:29] *** Quits: Nothing4You (N4Y@nothing4you.w.tf-w.tf) (*.net *.split)
+[05:16:29] *** Quits: Nitori (~kappa@chireiden.net) (*.net *.split)
+[05:16:29] *** Quits: TonL (~TonL@2001:1af8:4700:b0d0:d200::) (*.net *.split)
+[05:16:29] *** Quits: Ruhan (uid76353@gateway/web/irccloud.com/x-abpmgykbxhudywnx) (*.net *.split)
+[05:16:29] *** Quits: Behold (~behold@unaffiliated/beholdmyglory) (*.net *.split)
+[05:16:29] *** Quits: Xiretza (~Xiretza@mx.brose.me) (*.net *.split)
+[05:16:29] *** Quits: nyuszika7h (nyuszika7h@lykos/dev/nyuszika7h) (*.net *.split)
+[05:16:29] *** Quits: bucketm0use (no@unaffiliated/bucketm0use) (*.net *.split)
+[05:16:29] *** Quits: dayproper (dayproper@2a01:7e00::f03c:91ff:fe08:f7b7) (*.net *.split)
+[05:16:29] *** Quits: swebb (~swebb@161.97.245.62) (*.net *.split)
+[05:16:29] *** Quits: phlebas (sid21624@gateway/web/irccloud.com/x-rccedistouwbixuq) (*.net *.split)
+[05:16:29] *** Quits: ssbr (~scorchsab@python/site-packages/ssbr) (*.net *.split)
+[05:16:29] *** Quits: xsteadfastx (~marv@dslb-188-096-229-137.188.096.pools.vodafone-ip.de) (*.net *.split)
+[05:16:29] *** Quits: aspiers (~aspiers@coral.adamspiers.org) (*.net *.split)
+[05:16:29] *** Quits: Spaghettifetti (~RAWR@dogecoin/staff/raptorjesus) (*.net *.split)
+[05:16:29] *** Quits: Kamuela (sid111576@gateway/web/irccloud.com/x-jvfsxkjmnhsnqmbj) (*.net *.split)
+[05:16:29] *** Quits: untitaker (sid189804@gateway/web/irccloud.com/x-sjrchezfmrnnqojz) (*.net *.split)
+[05:16:29] *** Quits: Travis-42 (sid111146@gateway/web/irccloud.com/x-oemjfyrgxtenudmq) (*.net *.split)
+[05:16:29] *** Quits: MrNaz (sid133418@gateway/web/irccloud.com/x-tvochbgzvdsyqojn) (*.net *.split)
+[05:16:30] *** Quits: banseljaj (sid22580@gateway/web/irccloud.com/x-kmouzbbmfjfuidrp) (*.net *.split)
+[05:16:30] *** Quits: darthThorik (sid39589@gateway/web/irccloud.com/x-oyfenmtazayuywwx) (*.net *.split)
+[05:16:30] *** Quits: phtes (sid43321@gateway/web/irccloud.com/x-kuwgvdsfziobekaw) (*.net *.split)
+[05:16:30] *** Quits: benwilber (sid30815@gateway/web/irccloud.com/x-sqvwukqtgdelrqmj) (*.net *.split)
+[05:16:30] *** Quits: epic (sid37137@gateway/web/irccloud.com/x-riczfqobazlfqpcv) (*.net *.split)
+[05:16:30] *** Quits: R3x_ (sid181433@gateway/web/irccloud.com/x-fvxtaemencoqtzkq) (*.net *.split)
+[05:16:30] *** Quits: Nate75Sanders (sid174972@gateway/web/irccloud.com/x-vppszgtggdsaifls) (*.net *.split)
+[05:16:30] *** Quits: sparc (sid160069@gateway/web/irccloud.com/x-delknwfggqqgpdat) (*.net *.split)
+[05:16:30] *** Quits: flyingtriangle (uid301627@gateway/web/irccloud.com/x-dhzpkauehdaifcsf) (*.net *.split)
+[05:16:30] *** Quits: akraut (akraut@gateway/web/irccloud.com/x-txgbnawmydgunwbs) (*.net *.split)
+[05:16:30] *** Quits: alexs (sid85764@gateway/web/irccloud.com/x-qwarmetilcudcfqf) (*.net *.split)
+[05:16:30] *** Quits: EWDurbin (sid38710@gateway/web/irccloud.com/x-iphcxcuisfqabohx) (*.net *.split)
+[05:16:30] *** Quits: guidos (sid29181@gateway/web/irccloud.com/x-ahzoyyenvdihibor) (*.net *.split)
+[05:16:30] *** Quits: zalun (sid202629@gateway/web/irccloud.com/x-kbrktiganyflnzvl) (*.net *.split)
+[05:16:30] *** Quits: angerman (sid209936@gateway/web/irccloud.com/x-fjucynvoppkjywpa) (*.net *.split)
+[05:16:30] *** Quits: shurane (sid132556@gateway/web/irccloud.com/x-zxukpuxskslctlzk) (*.net *.split)
+[05:16:30] *** Quits: littlebean (sid204354@gateway/web/irccloud.com/x-feyjbmwesixnhwiq) (*.net *.split)
+[05:16:30] *** Quits: moop (sid799@gateway/web/irccloud.com/x-qqbnwifzbfsmexdw) (*.net *.split)
+[05:16:30] *** Quits: offby1-irccloud (sid11391@pdpc/supporter/monthlybyte/offby1) (*.net *.split)
+[05:16:31] *** Quits: Abjectio (sid41030@fsf/member/Abjectio) (*.net *.split)
+[05:16:31] *** Quits: hsiktas (sid224847@gateway/web/irccloud.com/x-fzerxtrsvqafauvd) (*.net *.split)
+[05:16:31] *** Quits: ikanobori (~user@python/site-packages/ikanobori) (*.net *.split)
+[05:16:31] *** Quits: Maple__ (Maple@gateway/shell/panicbnc/x-ocmmrziwgrzxzujr) (*.net *.split)
+[05:16:31] *** Quits: Sweet-P (~Sweet-P@138.68.9.53) (*.net *.split)
+[05:16:31] *** Quits: signop (~signop@199.180.249.106) (*.net *.split)
+[05:16:31] *** Quits: cjohnson (~cjohnson@li133-72.members.linode.com) (*.net *.split)
+[05:16:31] *** Quits: owlscientist (~name@sburn/devel/name) (*.net *.split)
+[05:16:31] *** Quits: Triffid_Hunter (~Triffid_H@unaffiliated/triffid-hunter) (*.net *.split)
+[05:16:31] *** Quits: kinnou (~kinou@rilynett.com) (*.net *.split)
+[05:16:31] *** Quits: m712 (~annoying@unaffiliated/thefam) (*.net *.split)
+[05:16:31] *** Quits: rj1 (~rj1@unaffiliated/rj1) (*.net *.split)
+[05:16:31] *** Quits: derek_v (~derek_v@cpe-70-95-160-136.san.res.rr.com) (*.net *.split)
+[05:16:31] *** Quits: jonbryan (~nope@unaffiliated/jonbryan) (*.net *.split)
+[05:16:31] *** Quits: spaceshiptimetra (~spaceship@ec2-18-218-234-245.us-east-2.compute.amazonaws.com) (*.net *.split)
+[05:16:31] *** Quits: zh (~zh@unaffiliated/zh) (*.net *.split)
+[05:16:31] *** Quits: remedan (~remedan@balak.me) (*.net *.split)
+[05:16:31] *** Quits: shakalaka_ (~shakalaka@ec2-52-52-27-0.us-west-1.compute.amazonaws.com) (*.net *.split)
+[05:16:31] *** Quits: cibs (~cibs@23.102.224.95) (*.net *.split)
+[05:16:31] *** Quits: Lartza (lartza@unaffiliated/lartza) (*.net *.split)
+[05:16:31] *** Quits: olasd (~olasd@pdpc/supporter/active/olasd) (*.net *.split)
+[05:16:31] *** Quits: valkyr2e (~valkyrie@unaffiliated/hydralisk) (*.net *.split)
+[05:16:31] *** Quits: nicholatian (~not.sure@arqadium/founder/alexander.nicholi) (*.net *.split)
+[05:16:31] *** Quits: _zach (~zach@ip-64-250-228-195.lasvegas.net) (*.net *.split)
+[05:16:31] *** Quits: sral (~lars@unaffiliated/violator) (*.net *.split)
+[05:16:31] *** Quits: lericson (~toxik@sendapatch/lericson) (*.net *.split)
+[05:16:31] *** Quits: roger_rabbit (~roger_rab@unaffiliated/roger-rabbit/x-7769789) (*.net *.split)
+[05:16:31] *** Quits: bauxit (~bauxit@2a01:6e60:10:1afb:1:3:3:7) (*.net *.split)
+[05:16:31] *** Quits: lermain (~qed@unaffiliated/lermain) (*.net *.split)
+[05:16:31] *** Quits: sircmpwn (znc@irc.sircmpwn.com) (*.net *.split)
+[05:16:31] *** Quits: bjs (~bjs@lfdfq.com) (*.net *.split)
+[05:16:31] *** Quits: znf (~ibm86@toaster.linge-ma.ws) (*.net *.split)
+[05:16:31] *** Quits: jor (~jor@jor.link) (*.net *.split)
+[05:16:31] *** Quits: blll (~irc@go.ballsdeep.com) (*.net *.split)
+[05:16:31] *** Quits: nedbat (~nedbat@python/psf/nedbat) (*.net *.split)
+[05:16:31] *** Quits: Callek (~sid394@2620:101:8016:74::5:18a) (*.net *.split)
+[05:16:31] *** Quits: Trashlord (~trash@wikipedia/Sentient-Planet) (*.net *.split)
+[05:16:31] *** Quits: bcc (~bcc@linaro/bcc) (*.net *.split)
+[05:16:31] *** Quits: malwar3hun73r (~malwar3hu@unaffiliated/malwar3hun73r) (*.net *.split)
+[05:16:31] *** Quits: gthank (~hank@unaffiliated/gthank) (*.net *.split)
+[05:16:37] *** darthThorik_ is now known as darthThorik
+[05:16:38] <notzmv> wooo splits
+[05:16:57] *** Quits: broono (~broono@27.38.241.51) (Ping timeout: 240 seconds)
+[05:17:03] *** Joins: weylin- (~weylin@unaffiliated/weylin)
+[05:17:03] *** Joins: Triffid_Hunter_ (~Triffid_H@unaffiliated/triffid-hunter)
+[05:17:04] *** Joins: Behold (~behold@unaffiliated/beholdmyglory)
+[05:17:10] *** Joins: zh (~zh@unaffiliated/zh)
+[05:17:11] *** Quits: Fee^ (~fee@unaffiliated/fee/x-8817338) (Ping timeout: 276 seconds)
+[05:17:13] *** Joins: spaceshiptimetra (~spaceship@ec2-18-218-234-245.us-east-2.compute.amazonaws.com)
+[05:17:20] *** Quits: wilbert_ (~wilbert@unaffiliated/wilbert) (Quit: wilbert_)
+[05:17:29] *** weylin- is now known as weylin
+[05:17:29] *** Joins: lz1dev (~rgp@unaffiliated/lz1dev)
+[05:17:35] *** Triffid_Hunter_ is now known as Triffid_Hunter
+[05:18:03] *** Quits: Elodin (~weechat@unaffiliated/padawan) (Quit: WeeChat 2.1)
+[05:18:24] *** Joins: nyuszika7h (nyuszika7h@lykos/dev/nyuszika7h)
+[05:18:56] *** Joins: LogicAside (~TOG@unaffiliated/thatotherguy)
+[05:18:57] *** Quits: jaawerth (~j@104.131.115.202) (Ping timeout: 240 seconds)
+[05:18:58] *** Quits: luckman212 (~luckman21@unaffiliated/luckman212) (Ping timeout: 240 seconds)
+[05:18:58] *** Quits: d^sh (~knumskull@p5785FA47.dip0.t-ipconnect.de) (Ping timeout: 240 seconds)
+[05:18:58] *** Quits: isomer (~isomer@unaffiliated/isomer) (Ping timeout: 240 seconds)
+[05:18:58] *** Quits: meth (~meth@unaffiliated/meth) (Ping timeout: 240 seconds)
+[05:18:59] *** Quits: bitch (hctib@gateway/shell/elitebnc/x-hwazxbyexdgtwdrv) (Ping timeout: 260 seconds)
+[05:18:59] *** Quits: Alina-malina (~Alina-mal@unaffiliated/alina-malina) (Ping timeout: 260 seconds)
+[05:18:59] *** Quits: killown (~killown@unaffiliated/geek) (Ping timeout: 260 seconds)
+[05:18:59] *** Quits: Dewin (~dewin@40.112.138.169) (Ping timeout: 260 seconds)
+[05:18:59] *** Quits: litheum (~kolbe@ec2-34-206-244-63.compute-1.amazonaws.com) (Ping timeout: 260 seconds)
+[05:19:12] *** Joins: Sweet-P (~Sweet-P@138.68.9.53)
+[05:19:18] *** Joins: __name__ (~name@sburn/devel/name)
+[05:19:27] *** Quits: DzAirmaX (~DzAirmaX@unaffiliated/dzairmax) (Ping timeout: 240 seconds)
+[05:19:34] *** Quits: ripazha (ripazha@unaffiliated/ripazha) (Ping timeout: 260 seconds)
+[05:19:36] *** Joins: Fee^ (~fee@unaffiliated/fee/x-8817338)
+[05:19:38] *** Joins: apx (~apx@75-134-35-243.dhcp.stls.mo.charter.com)
+[05:19:45] *** Joins: s14ve (~s14ve@ip-78-102-32-106.net.upcbroadband.cz)
+[05:19:57] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) (Ping timeout: 240 seconds)
+[05:19:58] *** Quits: r03nz (~r03nz@217-162-182-100.dynamic.hispeed.ch) (Ping timeout: 240 seconds)
+[05:20:01] *** Joins: pro_z (~pro_z@93.85.150.109)
+[05:20:09] *** Quits: Madbrad200 (Madbrad@gateway/shell/elitebnc/x-cewugxmaqmqaohqj) (Ping timeout: 260 seconds)
+[05:20:09] *** Quits: tompaw (~tompaw@tompaw.xxx) (Ping timeout: 260 seconds)
+[05:20:18] *** Joins: l0rdkermit (~user@c-67-170-176-90.hsd1.or.comcast.net)
+[05:20:33] *** Joins: fr0ddy (~fr0ddy@49.248.66.98)
+[05:20:39] *** Quits: fr0ddy (~fr0ddy@49.248.66.98) (Max SendQ exceeded)
+[05:20:45] *** Joins: malwar3hun73r (~malwar3hu@unaffiliated/malwar3hun73r)
+[05:21:24] *** Joins: DzAirmaX (~DzAirmaX@unaffiliated/dzairmax)
+[05:21:26] *** Joins: d^sh (~knumskull@p5785FA47.dip0.t-ipconnect.de)
+[05:21:31] *** Joins: meth (~meth@unaffiliated/meth)
+[05:21:32] *** Joins: Dewin (~dewin@40.112.138.169)
+[05:21:33] *** Joins: luckman212 (~luckman21@unaffiliated/luckman212)
+[05:21:38] *** Joins: isomer (~isomer@unaffiliated/isomer)
+[05:21:40] *** Quits: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[05:21:40] *** Joins: swebb (~swebb@161.97.245.62)
+[05:21:45] *** Joins: randominternetus (~randomint@unaffiliated/randominternetus)
+[05:21:47] *** Joins: r03nz (~r03nz@217-162-182-100.dynamic.hispeed.ch)
+[05:21:47] *** Joins: litheum (~kolbe@ec2-34-206-244-63.compute-1.amazonaws.com)
+[05:21:51] *** Joins: killown (~killown@unaffiliated/geek)
+[05:21:57] *** Quits: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net) (Ping timeout: 240 seconds)
+[05:22:35] *** Joins: derek_v (~derek_v@cpe-70-95-160-136.san.res.rr.com)
+[05:22:40] *** Joins: hsiktas (sid224847@gateway/web/irccloud.com/x-ymvksrebiuygpmoy)
+[05:22:48] *** Joins: ssbr (~scorchsab@python/site-packages/ssbr)
+[05:23:05] *** Joins: jonbryan (~nope@unaffiliated/jonbryan)
+[05:23:14] *** Joins: roger_rabbit (~roger_rab@unaffiliated/roger-rabbit/x-7769789)
+[05:23:15] *** Joins: shurane (sid132556@gateway/web/irccloud.com/x-cfgbnxudftrfqnhf)
+[05:23:24] *** Joins: Tapinella (~Tapinella@S0106cc2de0099182.no.shawcable.net)
+[05:23:26] *** Joins: xsteadfastx (~marv@dslb-188-096-229-137.188.096.pools.vodafone-ip.de)
+[05:23:55] *** Joins: Abjectio (sid41030@fsf/member/Abjectio)
+[05:24:16] <webs> omg guess what?
+[05:24:21] <webs> ive been misreading that lol
+[05:24:28] *** Joins: Alina-malina (~Alina-mal@unaffiliated/alina-malina)
+[05:24:34] *** Joins: kuter (~qwerty@wpa222.bialnet.pl)
+[05:24:56] *** Quits: ojo355 (~ojo355@2804:7f1:e106:2f60:e970:c9df:4f68:f4bc) (Quit: End of connection...)
+[05:25:46] <webs> kevlarman:  they awesome django people cleared the question xD
+[05:25:55] *** Joins: Madbrad200 (Madbrad@gateway/shell/elitebnc/x-oznbvuuekihzokeh)
+[05:26:08] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[05:26:21] *** Joins: enterprisey (~enterpris@wikipedia/enterprisey)
+[05:27:15] *** Joins: ycon_ (~ycon_@103.217.166.112)
+[05:28:42] *** Joins: RCStef (~Thunderbi@conect.gtstelecom.ro)
+[05:29:12] *** Joins: adoua (~adoua@unaffiliated/adoua)
+[05:29:17] *** Joins: twandy (~Thunderbi@cas-fw-sta.inet.casair.net)
+[05:29:51] *** Joins: lomex (~lomex@2a02:8108:4a40:aaa4:194c:89f1:7ba6:3e07)
+[05:30:05] *** Quits: LambaInsaan (~lambainsa@106.51.36.9) (Ping timeout: 240 seconds)
+[05:30:57] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[05:31:39] *** Joins: LambaInsaan (~lambainsa@106.51.36.9)
+[05:32:42] *** Joins: akhil (~akhil@202.83.16.80)
+[05:33:05] *** Joins: pdtpatrick (~pdtpatric@2620:10d:c090:180::1:df41)
+[05:33:27] *** Quits: JackLau (~JackLau@116.136.19.71) (Ping timeout: 240 seconds)
+[05:33:35] * akhil test
+[05:34:12] *** Quits: amosbird (~amosbird@123.206.66.49) (Read error: Connection timed out)
+[05:34:41] *** Joins: amosbird (~amosbird@123.206.66.49)
+[05:35:17] *** Joins: prettybTech (~prettybTe@2600:1700:3c60:5fa0:599f:c4a1:fa32:b4ce)
+[05:35:17] *** Joins: pupher_ (~pupher@unaffiliated/pupher)
+[05:35:17] *** Joins: bradfordli123 (~bradfordl@2601:640:8201:e5b0:521:9d79:578:b712)
+[05:35:17] *** Joins: BillyZane2 (~BillyZane@unaffiliated/billyzane)
+[05:35:17] *** Joins: skagerak (Elite20507@gateway/shell/elitebnc/x-vsehotgeioksxbyj)
+[05:35:17] *** Joins: dmartzol (~dmartzol@2601:241:8d00:4371:d473:e4be:a09e:7b57)
+[05:35:17] *** Joins: sword865 (uid208942@gateway/web/irccloud.com/x-khgbpnelyodeqdqp)
+[05:35:17] *** Joins: rajrajraj (uid72176@gateway/web/irccloud.com/x-slurbaagubipbwxa)
+[05:35:17] *** Joins: neteffect (Elite21294@gateway/shell/elitebnc/x-allxmhmfzooedrwd)
+[05:35:17] *** Joins: fuze (uid76888@gateway/web/irccloud.com/x-gimflmllodyaykyx)
+[05:35:17] *** Joins: cfoch (uid153227@gateway/web/irccloud.com/x-mrsawvmjvspfxmir)
+[05:35:17] *** Joins: ExploitedKernel (~User@2607:fea8:e31f:feb3:ec74:9541:305c:979c)
+[05:35:17] *** Joins: aalmazan (uid180785@gateway/web/irccloud.com/x-zlpmxqpysggnfuje)
+[05:35:17] *** Joins: kajo (~kajo@2a02:908:2f33:d560:8e10:876f:c7a8:294d)
+[05:35:17] *** Joins: Arcaelyx (~Arcaelyx@2604:2000:f14a:2500:bd14:4432:dbbb:f924)
+[05:35:17] *** Joins: jasmith (~jasmith@2600:8803:7a00:e46:1adb:f2ff:fe12:c3ff)
+[05:35:17] *** Joins: lukeshu (~lukeshu@ramhost.lukeshu.com)
+[05:35:17] *** Joins: madbytes (uid207298@gateway/web/irccloud.com/x-halzzxmcwmdrohts)
+[05:35:17] *** Joins: ultrashag (ultrashag@gateway/shell/firrre/x-hondsfrrhbljsxcl)
+[05:35:17] *** Joins: marduk191 (marduk191@unaffiliated/marduk191)
+[05:35:17] *** Joins: shabius (~shabius@2a07:241:1:1024::1001)
+[05:35:17] *** Joins: yn (~yano@freenode/staff-emeritus/yano)
+[05:35:17] *** Joins: altendky (uid135382@gateway/web/irccloud.com/x-uuytrvtfxemvzupq)
+[05:35:17] *** Joins: Affliction (affliction@2402:1f00:8101:135::)
+[05:35:17] *** Joins: mcspud (~mcspud@2607:fcd0:100:4d05::5d03:f86a)
+[05:35:17] *** Joins: avu (~jan@unaffiliated/avu)
+[05:35:17] *** Joins: duoi (~duoi@unaffiliated/duoi)
+[05:35:17] *** Joins: Orbstheorem (~roosember@hellendaal.orbstheorem.ch)
+[05:35:17] *** Joins: tpr (~tpr@unaffiliated/teprrr)
+[05:35:17] *** Joins: heftig (heftig@archlinux/developer/heftig)
+[05:35:17] *** Joins: white_devil (uid309545@gateway/web/irccloud.com/x-wgsuoglptpichgct)
+[05:35:17] *** Joins: TheReverend403 (is@revthefox.co.uk)
+[05:35:17] *** Joins: armin (~armin@engine.vpn.blue)
+[05:35:17] *** Joins: grateful (~grateful@unaffiliated/grateful)
+[05:35:17] *** Joins: sdhand (~sam@unaffiliated/kyubiko)
+[05:35:17] *** Joins: CheckYourSix (~quassel@unaffiliated/checkyoursix)
+[05:35:17] *** Joins: Mechanismus (~LabMonkey@2602:306:cf62:e270:41b4:be7c:a9d7:7127)
+[05:35:17] *** Joins: offby1-irccloud (sid11391@pdpc/supporter/monthlybyte/offby1)
+[05:35:17] *** Joins: Nickeeh (~quassel@bulbasaur.sjorsgielen.nl)
+[05:35:17] *** Joins: coderphive (uid308245@gateway/web/irccloud.com/x-stijxuurogmuoqgi)
+[05:35:17] *** Joins: Nothing4You (N4Y@nothing4you.w.tf-w.tf)
+[05:35:17] *** Joins: Nitori (~kappa@chireiden.net)
+[05:35:17] *** Joins: TonL (~TonL@2001:1af8:4700:b0d0:d200::)
+[05:35:17] *** Joins: Ruhan (uid76353@gateway/web/irccloud.com/x-abpmgykbxhudywnx)
+[05:35:17] *** Joins: untitaker (sid189804@gateway/web/irccloud.com/x-sjrchezfmrnnqojz)
+[05:35:17] *** Joins: bucketm0use (no@unaffiliated/bucketm0use)
+[05:35:17] *** Joins: dayproper (dayproper@2a01:7e00::f03c:91ff:fe08:f7b7)
+[05:35:17] *** Joins: phlebas (sid21624@gateway/web/irccloud.com/x-rccedistouwbixuq)
+[05:35:17] *** Joins: littlebean (sid204354@gateway/web/irccloud.com/x-feyjbmwesixnhwiq)
+[05:35:17] *** Joins: aspiers (~aspiers@coral.adamspiers.org)
+[05:35:17] *** Joins: moop (sid799@gateway/web/irccloud.com/x-qqbnwifzbfsmexdw)
+[05:35:17] *** Joins: Kamuela (sid111576@gateway/web/irccloud.com/x-jvfsxkjmnhsnqmbj)
+[05:35:17] *** Joins: Travis-42 (sid111146@gateway/web/irccloud.com/x-oemjfyrgxtenudmq)
+[05:35:17] *** Joins: MrNaz (sid133418@gateway/web/irccloud.com/x-tvochbgzvdsyqojn)
+[05:35:17] *** Joins: banseljaj (sid22580@gateway/web/irccloud.com/x-kmouzbbmfjfuidrp)
+[05:35:17] *** Joins: phtes (sid43321@gateway/web/irccloud.com/x-kuwgvdsfziobekaw)
+[05:35:17] *** Joins: benwilber (sid30815@gateway/web/irccloud.com/x-sqvwukqtgdelrqmj)
+[05:35:17] *** Joins: epic (sid37137@gateway/web/irccloud.com/x-riczfqobazlfqpcv)
+[05:35:17] *** Joins: R3x_ (sid181433@gateway/web/irccloud.com/x-fvxtaemencoqtzkq)
+[05:35:17] *** Joins: Nate75Sanders (sid174972@gateway/web/irccloud.com/x-vppszgtggdsaifls)
+[05:35:17] *** Joins: sparc (sid160069@gateway/web/irccloud.com/x-delknwfggqqgpdat)
+[05:35:17] *** Joins: akraut (akraut@gateway/web/irccloud.com/x-txgbnawmydgunwbs)
+[05:35:17] *** Joins: flyingtriangle (uid301627@gateway/web/irccloud.com/x-dhzpkauehdaifcsf)
+[05:35:17] *** Joins: EWDurbin (sid38710@gateway/web/irccloud.com/x-iphcxcuisfqabohx)
+[05:35:17] *** Joins: alexs (sid85764@gateway/web/irccloud.com/x-qwarmetilcudcfqf)
+[05:35:17] *** Joins: guidos (sid29181@gateway/web/irccloud.com/x-ahzoyyenvdihibor)
+[05:35:17] *** Joins: zalun (sid202629@gateway/web/irccloud.com/x-kbrktiganyflnzvl)
+[05:35:17] *** Joins: angerman (sid209936@gateway/web/irccloud.com/x-fjucynvoppkjywpa)
+[05:35:17] *** Joins: Maple__ (Maple@gateway/shell/panicbnc/x-ocmmrziwgrzxzujr)
+[05:35:17] *** Joins: m712 (~annoying@unaffiliated/thefam)
+[05:35:17] *** Joins: rj1 (~rj1@unaffiliated/rj1)
+[05:35:17] *** Joins: Lartza (lartza@unaffiliated/lartza)
+[05:35:17] *** Joins: olasd (~olasd@pdpc/supporter/active/olasd)
+[05:35:17] *** Joins: lericson (~toxik@sendapatch/lericson)
+[05:35:17] *** Joins: Callek (~sid394@2620:101:8016:74::5:18a)
+[05:35:17] *** Joins: bauxit (~bauxit@2a01:6e60:10:1afb:1:3:3:7)
+[05:35:17] *** Joins: lermain (~qed@unaffiliated/lermain)
+[05:35:17] *** Joins: sircmpwn (znc@irc.sircmpwn.com)
+[05:35:17] *** Joins: bjs (~bjs@lfdfq.com)
+[05:35:17] *** Joins: znf (~ibm86@toaster.linge-ma.ws)
+[05:35:17] *** Joins: jor (~jor@jor.link)
+[05:35:17] *** Joins: nedbat (~nedbat@python/psf/nedbat)
+[05:35:17] *** Joins: Trashlord (~trash@wikipedia/Sentient-Planet)
+[05:35:24] *** Joins: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net)
+[05:35:26] *** Quits: MoarSpaceFi (~Forgot_my@65.126.126.193) (Read error: Connection reset by peer)
+[05:35:27] *** Quits: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net) (Max SendQ exceeded)
+[05:36:01] *** Joins: jungleF3ver (~LennyKrav@ool-4a5841e5.dyn.optonline.net)
+[05:36:03] *** Joins: LabMonkey (~LabMonkey@2602:306:cf62:e270:4c6a:50a8:c0b3:4220)
+[05:36:03] *** Joins: pathrocle (~pathrocle@92.83.249.190)
+[05:36:14] *** Quits: armin (~armin@engine.vpn.blue) (Max SendQ exceeded)
+[05:36:14] *** Quits: rj1 (~rj1@unaffiliated/rj1) (Max SendQ exceeded)
+[05:36:25] *** Quits: altendky (uid135382@gateway/web/irccloud.com/x-uuytrvtfxemvzupq) (Max SendQ exceeded)
+[05:36:42] *** Joins: veevax (~veevax@212-198-32-77.rev.numericable.fr)
+[05:36:46] *** Joins: rj1 (~rj1@unaffiliated/rj1)
+[05:37:30] *** Quits: Randy (randy@freebsd/user/randy) (Quit: Out)
+[05:37:39] *** Quits: dskull (~dskull@unaffiliated/daynaskully) (Ping timeout: 260 seconds)
+[05:37:44] *** Quits: pdtpatrick (~pdtpatric@2620:10d:c090:180::1:df41) (Ping timeout: 256 seconds)
+[05:38:14] *** Quits: norwood67 (~human@c-76-102-39-161.hsd1.ca.comcast.net) (Ping timeout: 260 seconds)
+[05:38:42] *** Joins: altendky (uid135382@gateway/web/irccloud.com/x-cxxkmvjzjnsgjqgl)
+[05:38:43] *** Joins: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net)
+[05:39:11] *** Quits: Kamuela (sid111576@gateway/web/irccloud.com/x-jvfsxkjmnhsnqmbj) (Ping timeout: 276 seconds)
+[05:39:34] *** Quits: CodeMouse92 (~JasonMc92@unaffiliated/codemouse) (Quit: Oh freddled gruntbuggly | Thy micturations are to me | As plurdled gabbleblotchits | On a lurgid bee)
+[05:39:50] *** Quits: Mechanismus (~LabMonkey@2602:306:cf62:e270:41b4:be7c:a9d7:7127) (Ping timeout: 276 seconds)
+[05:40:04] *** Joins: Kamuela (sid111576@gateway/web/irccloud.com/x-fyghslspxmsqqgqt)
+[05:40:16] *** Joins: Vornicus (~Vorn@2605:e000:1218:48d:1d8b:3a9b:779e:96c2)
+[05:40:21] *** Joins: norwood67 (~human@c-76-102-39-161.hsd1.ca.comcast.net)
+[05:40:28] *** Quits: him-cesjf (~cesjf@unaffiliated/himcesjf) (Remote host closed the connection)
+[05:40:40] *** Joins: dskull (~dskull@unaffiliated/daynaskully)
+[05:41:17] *** Quits: pupher_ (~pupher@unaffiliated/pupher) (Read error: Connection reset by peer)
+[05:41:47] *** Joins: prettybT_ (~prettybTe@2600:1700:3c60:5fa0:b84e:2ac0:adda:436f)
+[05:42:24] *** Quits: tuxiano (~tuxiano@2a02:8070:89d4:aa00:43b:6975:fead:af07) (Remote host closed the connection)
+[05:42:40] *** Quits: BillyZane2 (~BillyZane@unaffiliated/billyzane) (Quit: Leaving)
+[05:42:52] *** Joins: BillyZane2 (~BillyZane@unaffiliated/billyzane)
+[05:42:59] <bradfordli123> random.seed(0) sets seed for me to reproduce results. How can I use this throughout my program and in all the imports and other files as well ?
+[05:43:15] *** Joins: rudrab (~rudrab@14.139.59.140)
+[05:43:42] <papna> bradfordli123: You are, there, setting a global seed. Your whole program uses it.
+[05:43:44] *** Quits: pi- (~Ohmu@cpc69129-oxfd25-2-0-cust987.4-3.cable.virginm.net) ()
+[05:43:56] <papna> bradfordli123: There might be other things that cause this not to make your program deterministic.
+[05:44:05] <papna> bradfordli123: Overall, this isn't a great plan
+[05:44:09] <papna> bradfordli123: What is your situation?
+[05:45:02] *** Quits: prettybTech (~prettybTe@2600:1700:3c60:5fa0:599f:c4a1:fa32:b4ce) (Ping timeout: 276 seconds)
+[05:45:05] *** Quits: LambaInsaan (~lambainsa@106.51.36.9) (Ping timeout: 240 seconds)
+[05:45:23] *** Joins: MrNeon (~quassel@a85-138-86-108.cpe.netcabo.pt)
+[05:45:39] *** Joins: kaffeetrauma (~Thunderbi@n37.informatik.fh-dortmund.de)
+[05:45:40] <bradfordli123> papna: From my experience, i've written single file scripts that uses the random library. This is the first time where I will need random choice/numbers throughout my program and the other classes it imports in
+[05:46:03] <bradfordli123> so im not sure how to seed properly
+[05:46:18] *** Joins: JackLau (~JackLau@116.136.19.69)
+[05:46:20] *** Quits: pangolin_ (~pangolin@cpe-104-138-172-211.triad.res.rr.com) (Quit: Konversation terminated!)
+[05:46:26] *** Joins: fikka (~fikka@5403BEC5.catv.pool.telekom.hu)
+[05:46:38] *** Joins: pop (3e6f8f92@gateway/web/freenode/ip.62.111.143.146)
+[05:46:53] <papna> bradfordli123: If you want to use a seed, don't use the global random state, but rather make your own instance of random.Random and use that for the things that matter to you
+[05:47:00] <papna> bradfordli123: What does your program do?
+[05:47:27] *** Quits: freebullets (~freebulle@75-172-41-31.tukw.qwest.net) (Ping timeout: 240 seconds)
+[05:47:48] *** Quits: YuGiOhJCJ (~YuGiOhJCJ@gateway/tor-sasl/yugiohjcj) (Quit: YuGiOhJCJ)
+[05:47:57] *** Quits: zahlman (~zahlman@toroon4425w-lp130-03-74-12-95-1.dsl.bell.ca) (Ping timeout: 240 seconds)
+[05:48:23] <bradfordli123> papna: my program is in the realm of game theory/ Reinforcement leanring. Trying to implement different algorithms and see how they do in a "soccer game". Need the program to make the same choices so then I can see difference in the algorithms
+[05:48:32] <webs> omg realm of the shadows?
+[05:48:46] <bradfordli123> webs: watch out for Shadow Kahn
+[05:48:52] *** Quits: pathrocle (~pathrocle@92.83.249.190) (Ping timeout: 244 seconds)
+[05:49:12] *** Joins: freebullets (~freebulle@207-225-245-41.tukw.qwest.net)
+[05:49:48] <papna> bradfordli123: It seems like a potential ref flag that you need to "make the same choices so then I can see difference in the algorithms"
+[05:49:50] <bradfordli123> papna: so I can pass sound random.Random(seed) ?
+[05:49:52] *** Quits: enterprisey (~enterpris@wikipedia/enterprisey) (Remote host closed the connection)
+[05:50:24] <papna> bradfordli123: sound?
+[05:50:28] <papna> around?
+[05:50:30] *** Joins: pupher_ (~pupher@unaffiliated/pupher)
+[05:50:43] <bradfordli123> around* sorry
+[05:50:44] *** Quits: akhil (~akhil@202.83.16.80) (Remote host closed the connection)
+[05:51:13] *** Quits: thinkpad (~thinkpad@bb116-14-129-42.singnet.com.sg) (Ping timeout: 256 seconds)
+[05:51:14] <papna> bradfordli123: Yes, that is a better plan than using the global one, since you can understand and control what uses it
+[05:51:28] <bradfordli123> gtocha
+[05:51:51] *** Quits: fikka (~fikka@5403BEC5.catv.pool.telekom.hu) (Ping timeout: 240 seconds)
+[05:51:54] *** Joins: thinkpad (~thinkpad@bb116-14-129-42.singnet.com.sg)
+[05:52:22] <bradfordli123> thank you! papna
+[05:53:35] *** Joins: setham (~textual@unaffiliated/setham)
+[05:54:15] *** Quits: lomex (~lomex@2a02:8108:4a40:aaa4:194c:89f1:7ba6:3e07) (Quit: My MacBook has gone to sleep. ZZZzzz…)
+[05:54:48] *** Quits: Labu (~Labu@labu.pck.nerim.net) (Quit: WeeChat 2.0.1)
+[05:54:54] *** Joins: lomex (~lomex@2a02:8108:4a40:aaa4:194c:89f1:7ba6:3e07)
+[05:55:07] *** Quits: lomex (~lomex@2a02:8108:4a40:aaa4:194c:89f1:7ba6:3e07) (Client Quit)
+[05:55:24] *** Joins: lompik (~lompik@unaffiliated/lompik)
+[05:55:42] *** Joins: tm007 (uid287041@gateway/web/irccloud.com/x-rvbhvduufadnbipd)

@@ -2,11 +2,17 @@
 
 Django-based web app to quickly search logfiles from the #python channel. 
 
+Searches on nick, intended recipient and message content.
+
 # Usage
 
 Run `docker-compose up` and it should build the environment (Python 3.7.2)
 
 Run `docker-compose run web python manage.py migrate` to build the DB.
+
+Go to `http://127.0.0.1` (port 80) to see it.
+
+Run `docker-compose down` when you're done.
 
 # Tests
 
