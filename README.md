@@ -4,6 +4,13 @@ Django-based web app to quickly search logfiles from the #python channel.
 
 # Usage
 
+
+# Tests
+
+Run `pipenv install` and `pipenv shell` to build virtual environment.
+
+Tests can be run with  `PYTHONPATH=. python -m pytest -vsx` from the root directory.
+
 # Notes
 
   - Focused mostly on flexibility - it would be trivial to extend this to other channels or repurpose core functionality.
