@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class Line(models.Model):
     SEARCHABLE_FIELDS = ('nick', 'recipient', 'message')
 

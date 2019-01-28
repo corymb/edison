@@ -7,7 +7,11 @@
 
 <ul>
   {% for result in results %}
-  <li>{{ result.nick }}: {{ result.message }}</li>
+    {% if result.recipient %}
+      <li>{{ result.nick }}: {{ result.recipient }}: {{ result.message }}</li>
+    {% else %}
+      <li>{{ result.nick }}: {{ result.message }}</li>
+    {% endif %}
   {% empty %}
     <h3 class="text-center mt-4">No results found for '{{ query }}'</h3>
   {% endfor %}
