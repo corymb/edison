@@ -6,11 +6,13 @@ Searches on nick, intended recipient and message content.
 
 # Usage
 
-Run `docker-compose up` and it should build the environment (Python 3.7.2)
+Run `docker-compose up -d` and it should build the environment (Python 3.7.2)
 
 Run `docker-compose run web python manage.py migrate` to build the DB.
 
-Go to `http://127.0.0.1` (port 80) to see it.
+Slurp the sample logfiles with `ls logs/python | xargs docker-compose run web python manage.py parse_logs`
+
+Go to [localhost](http://127.0.0.1) (port 80) to see it.
 
 Run `docker-compose down` when you're done.
 
